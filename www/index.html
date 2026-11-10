@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Controle de Materiais MPT – Actemium</title>
+<meta name="theme-color" content="#0b5cad">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f6fa;--surface:#ffffff;--surface2:#f8fafc;--line:#e2e8f0;--line2:#cbd5e1;
+  --text:#0f1b2d;--muted:#5b6b80;--faint:#94a3b8;
+  --pri:#0b5cad;--pri2:#0a4d91;--priSoft:#e7f0fb;
+  --in:#0f8a5f;--inSoft:#e5f5ee;--out:#c2570c;--outSoft:#fdf0e6;--warn:#b7791f;--warnSoft:#fdf6e3;
+  --red:#c42b2b;--redSoft:#fdecec;--violet:#6941c6;--violetSoft:#f1ecfb;
+  --r:14px;--sh:0 1px 2px rgba(15,27,45,.05),0 4px 14px rgba(15,27,45,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+a{color:var(--pri)}
+/* layout */
+.shell{display:flex;min-height:100vh}
+.side{width:236px;background:var(--surface);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:18px 12px;flex:none}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px}
+.brand img{max-height:30px;max-width:120px;object-fit:contain}
+.wordmark{font-weight:800;letter-spacing:.06em;color:var(--pri);font-size:17px}
+.brand small{display:block;color:var(--muted);font-size:11.5px;font-weight:500;letter-spacing:0}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:11px;border:0;background:none;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-weight:500;text-align:left}
+.nav button:hover{background:var(--surface2);color:var(--text)}
+.nav button.on{background:var(--priSoft);color:var(--pri);font-weight:600}
+.side .me{margin-top:auto;border-top:1px solid var(--line);padding:14px 8px 0;display:flex;align-items:center;gap:10px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--priSoft);color:var(--pri);display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.me .nm{font-weight:600;font-size:13px;line-height:1.2}.me .rl{font-size:11.5px;color:var(--muted)}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{display:none}
+.content{padding:26px 30px 40px;max-width:1280px;width:100%}
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.ph h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.ph p{margin:4px 0 0;color:var(--muted)}
+.bnav{display:none}
+/* components */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+.pad{padding:18px}
+.card h3{margin:0 0 12px;font-size:14.5px;font-weight:600}
+.card h3 small{color:var(--muted);font-weight:500;margin-left:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line2);background:var(--surface);padding:9px 14px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap;text-decoration:none;color:var(--text)}
+.btn:hover{background:var(--surface2)}
+.btn.p{background:var(--pri);border-color:var(--pri);color:#fff}.btn.p:hover{background:var(--pri2)}
+.btn.o{background:var(--out);border-color:var(--out);color:#fff}.btn.o:hover{filter:brightness(.95)}
+.btn.g{background:var(--in);border-color:var(--in);color:#fff}
+.btn.d{color:var(--red);border-color:#f1c4c4}.btn.d:hover{background:var(--redSoft)}
+.btn.sm{padding:6px 10px;font-size:12.5px;border-radius:8px}
+.btn.ghost{border-color:transparent;background:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f label{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.f label .req{color:var(--red)}
+.in,select.in,textarea.in{width:100%;border:1px solid var(--line2);background:#fff;border-radius:10px;padding:10px 12px;outline:none;transition:border .15s,box-shadow .15s}
+.in:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(11,92,173,.13)}
+.in[readonly]{background:var(--surface2);color:var(--muted)}
+textarea.in{min-height:76px;resize:vertical}
+.sec{font-size:12px;font-weight:700;color:var(--pri);text-transform:uppercase;letter-spacing:.07em;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.sec:after{content:"";flex:1;height:1px;background:var(--line)}
+.sec:first-child{margin-top:0}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.chip.est{background:var(--inSoft);color:var(--in)}
+.chip.par{background:var(--warnSoft);color:var(--warn)}
+.chip.bx{background:#eef1f5;color:#475569}
+.chip.ap{background:var(--priSoft);color:var(--pri)}
+.chip.em{background:var(--violetSoft);color:var(--violet)}
+.chip.tr{background:var(--outSoft);color:var(--out)}
+.chip.adm{background:var(--priSoft);color:var(--pri)}
+.chip.off{background:var(--redSoft);color:var(--red)}
+.muted{color:var(--muted)}.faint{color:var(--faint)}
+.mono{font-variant-numeric:tabular-nums}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.kpi{padding:16px 16px 14px;position:relative;overflow:hidden}
+.kpi .lb{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:7px}
+.kpi .lb i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.kpi .vl{font-size:24px;font-weight:700;margin-top:8px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.kpi .sb{font-size:12px;color:var(--muted);margin-top:3px}
+/* table */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface2);white-space:nowrap}
+.tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr.click{cursor:pointer}
+.tbl tr.click:hover td{background:#f9fbfe}
+.tbl .desc{font-weight:600;max-width:340px}
+.tbl .desc small{display:block;color:var(--muted);font-weight:500;margin-top:2px}
+.tbl input[type=checkbox]{width:17px;height:17px;accent-color:var(--pri)}
+.tw{overflow:auto;border-radius:var(--r)}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--text);font-size:15px;margin-bottom:4px}
+/* bars */
+.hb{display:grid;grid-template-columns:minmax(70px,130px) 1fr auto;gap:10px;align-items:center;margin:9px 0;font-size:13px}
+.hb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-weight:500}
+.hb .tr{height:10px;background:var(--surface2);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.hb .tr i{display:block;height:100%;border-radius:6px}
+.hb b{font-variant-numeric:tabular-nums;font-size:12.5px;min-width:28px;text-align:right}
+.stack{display:flex;height:14px;border-radius:8px;overflow:hidden;background:var(--surface2);gap:2px}
+.stack i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+svg.chart text{font-family:Inter,sans-serif;font-size:11px;fill:var(--muted)}
+/* activity */
+.act{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.act:last-child{border-bottom:0}
+.act .ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none}
+.act .ic.in{background:var(--inSoft);color:var(--in)}.act .ic.out{background:var(--outSoft);color:var(--out)}
+.act .tx{flex:1;min-width:0}
+.act .tx b{font-weight:600}
+.act .tx div{font-size:12.5px;color:var(--muted);margin-top:2px}
+.act time{font-size:12px;color:var(--muted);white-space:nowrap}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(15,27,45,.42);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow:auto;backdrop-filter:blur(2px)}
+.md{background:var(--surface);border-radius:18px;width:100%;max-width:560px;box-shadow:0 20px 60px rgba(15,27,45,.25);animation:pop .16s ease-out}
+.md.lg{max-width:860px}
+.md .mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);gap:10px}
+.md .mh h2{margin:0;font-size:17px}
+.md .mb{padding:18px 20px}
+.md .mf{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+@keyframes pop{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px}
+.dl div small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;margin-bottom:2px}
+.dl div b{font-weight:600;word-break:break-word}
+.dl .full{grid-column:1/-1}
+.photos{display:flex;gap:10px;flex-wrap:wrap}
+.photos .ph1{width:92px;height:92px;border-radius:12px;overflow:hidden;position:relative;border:1px solid var(--line);background:var(--surface2)}
+.photos .ph1 img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+.photos .ph1 button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(15,27,45,.7);color:#fff;cursor:pointer;font-size:14px;line-height:1}
+.addph{width:92px;height:92px;border-radius:12px;border:1.5px dashed var(--line2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);cursor:pointer;font-size:12px;font-weight:600;background:var(--surface2)}
+.addph:hover{border-color:var(--pri);color:var(--pri)}
+.hist{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:8px;background:var(--surface2)}
+.hist .hh{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.hist .hd{font-size:12.5px;color:var(--muted);margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
+/* toast */
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:80;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+#toast div{background:#0f1b2d;color:#fff;padding:11px 16px;border-radius:12px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.2);max-width:90vw;animation:pop .16s}
+#toast div.err{background:var(--red)}
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,#eaf1fb 0%,#f6f8fb 55%,#eef6f2 100%)}
+.login .card{width:100%;max-width:400px;padding:30px 28px}
+.login .lg{text-align:center;margin-bottom:22px}
+.login .lg img{max-height:46px;max-width:200px;object-fit:contain}
+.login .lg .wordmark{font-size:26px}
+.login h2{margin:14px 0 4px;font-size:19px}
+.login p{margin:0;color:var(--muted);font-size:13px}
+.login form{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.note{background:var(--priSoft);color:#1d4f86;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.45}
+.note.w{background:var(--warnSoft);color:#7a5414}
+/* label preview */
+.lbl{width:100%;max-width:400px;aspect-ratio:100/70;border:1.5px solid #333;border-radius:8px;background:#fff;padding:8px 10px;display:flex;flex-direction:column;font-size:9px;color:#000}
+.lbl .lh{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;padding-bottom:5px}
+.lbl .lh img{max-height:22px;max-width:110px;object-fit:contain}
+.lbl .lh .t{text-align:right;font-weight:700;font-size:9px}.lbl .lh .t small{display:block;font-weight:400;font-size:7.5px}
+.lbl .lb2{display:flex;gap:8px;flex:1;padding-top:5px;min-height:0}
+.lbl .lf{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;align-content:start;min-width:0}
+.lbl .lf div{min-width:0}
+.lbl .lf small{display:block;font-size:6.5px;color:#666;text-transform:uppercase}
+.lbl .lf b{display:block;font-size:8.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbl .lf .w{grid-column:1/-1}.lbl .lf .w b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.lbl .lq{width:31%;text-align:center;font-weight:700;font-size:9px}
+.lbl .lq svg{width:100%;height:auto;display:block}
+.sel-bar{position:sticky;bottom:12px;z-index:5;margin-top:12px;background:#0f1b2d;color:#fff;border-radius:14px;padding:10px 12px 10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 10px 30px rgba(15,27,45,.25)}
+.sel-bar .btn{border-color:transparent}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:14px}
+.searchw{position:relative}.searchw svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--faint)}
+.searchw .in{padding-left:36px}
+.boot{min-height:100vh;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted)}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--pri);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.imgview{max-width:100%;max-height:80vh;display:block;margin:auto;border-radius:12px}
+.pill-tabs{display:inline-flex;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.pill-tabs button{border:0;background:none;padding:6px 11px;border-radius:8px;cursor:pointer;font-weight:600;font-size:12.5px;color:var(--muted)}
+.pill-tabs button.on{background:#fff;color:var(--pri);box-shadow:0 1px 3px rgba(15,27,45,.12)}
+.sheet .mb button.lnk{display:flex;width:100%;align-items:center;gap:12px;border:0;background:none;padding:13px 6px;border-bottom:1px solid var(--line);cursor:pointer;font-weight:500;font-size:15px;text-align:left}
+.sheet .mb button.lnk:last-child{border-bottom:0}
+
+/* responsive */
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){
+  .side{display:none}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .top .brand{padding:0}
+  .content{padding:16px 14px 96px}
+  .bnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+  .bnav button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--muted);padding:6px 2px;cursor:pointer;border-radius:10px}
+  .bnav button.on{color:var(--pri)}
+  .bnav button.plus span.pl{width:42px;height:42px;border-radius:14px;background:var(--pri);color:#fff;display:grid;place-items:center;margin-top:-14px;box-shadow:0 6px 16px rgba(11,92,173,.35)}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .kpi .vl{font-size:20px}
+  .g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}
+  .fg.g3,.fg.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dl{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .filters{grid-template-columns:1fr 1fr}
+  .filters .searchw{grid-column:1/-1}
+  .ph h1{font-size:19px}
+  /* table → cards */
+  .tbl.rsp thead{display:none}
+  .tbl.rsp,.tbl.rsp tbody,.tbl.rsp tr,.tbl.rsp td{display:block;width:100%}
+  .tbl.rsp tr{padding:12px 14px;border-bottom:1px solid var(--line);position:relative}
+  .tbl.rsp td{border:0;padding:2px 0}
+  .tbl.rsp td[data-l]:before{content:attr(data-l)": ";color:var(--muted);font-size:12px}
+  .tbl.rsp td.ck{position:absolute;right:12px;top:12px;width:auto}
+  .tbl.rsp td.desc{padding-right:34px;max-width:none}
+  .tbl.rsp td.hm{display:none}
+  .md{border-radius:16px}
+  .ov{padding:10px 8px}
+}
+/* dashboard */
+.hero{background:linear-gradient(120deg,#0a3f78 0%,#0b5cad 55%,#2a7fd4 100%);color:#fff;border-radius:18px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 10px 30px rgba(11,92,173,.22);position:relative;overflow:hidden;margin-bottom:14px}
+.hero:after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero:before{content:"";position:absolute;right:120px;bottom:-110px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero h1{margin:4px 0 2px;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.hero p{margin:0;opacity:.85}.hero-d{font-size:12px;opacity:.75;text-transform:capitalize;font-weight:500}
+.hero-r{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.hero .hb1{background:#fff;color:#0b5cad;border-color:#fff}.hero .hb1:hover{background:#eef5fd}
+.hero .hb2{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}.hero .hb2:hover{background:rgba(255,255,255,.2)}
+.dbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.dbar .pill-tabs{background:#fff}
+.dsel{display:flex;gap:8px;margin-left:auto;align-items:center;flex-wrap:wrap}.dsel select.in{width:auto;min-width:170px;padding:8px 12px}
+.rng{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);font-weight:500}
+.kpi2{padding:16px 16px 14px;position:relative;overflow:hidden;border-top:3px solid var(--c)}
+.kpi2 .kt{display:flex;align-items:center;gap:9px}
+.kpi2 .kic{width:34px;height:34px;border-radius:10px;background:var(--cb);color:var(--c);display:grid;place-items:center}
+.kpi2 .klb{font-size:12.5px;color:var(--muted);font-weight:600;line-height:1.25}
+.kpi2 .kvl{font-size:26px;font-weight:800;margin-top:12px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--text)}
+.kmoney{font-size:clamp(18px,2.2vw,26px)}
+.kpi2 .ksb{font-size:12px;color:var(--muted);margin-top:2px}
+.dg1{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}.dg2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}.ch h3{margin:0}
+.donutw{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;padding-top:6px}
+.donut{width:150px;height:150px;flex:none}
+.dleg{flex:1;min-width:150px;display:flex;flex-direction:column;gap:10px}
+.dleg div{display:grid;grid-template-columns:12px 1fr auto 42px;gap:9px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}
+.dleg i{width:10px;height:10px;border-radius:3px}.dleg span{font-weight:500}.dleg b{font-variant-numeric:tabular-nums}.dleg em{font-style:normal;color:var(--muted);font-size:12px;text-align:right}
+.sttiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stt{border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+.stt span{font-size:11px;font-weight:700;letter-spacing:.04em}.stt b{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.stt .sbar{height:6px;border-radius:4px;background:rgba(255,255,255,.75);overflow:hidden;margin-top:4px}.stt .sbar i{display:block;height:100%;border-radius:4px}
+.stt em{font-style:normal;font-size:11.5px;opacity:.85}
+.rk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:6px;background:var(--surface2);border:1px solid var(--line);font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-right:7px}
+.acts{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+.act{border-radius:10px;padding:11px 8px;margin:0 -8px}.act:hover{background:var(--surface2)}
+@media (max-width:1100px){.dg1{grid-template-columns:minmax(0,1fr)}.acts{grid-template-columns:1fr}}
+@media (max-width:860px){.hero{padding:18px}.hero h1{font-size:20px}.hero-r{width:100%}.hero-r .btn{flex:1}.dg2{grid-template-columns:minmax(0,1fr)}.dsel{margin-left:0;width:100%;display:grid;grid-template-columns:1fr 1fr}.dsel select.in{min-width:0;width:100%}.dsel .btn{grid-column:1/-1}.kpi2 .kvl{font-size:22px}.sttiles{gap:8px}.stt b{font-size:22px}.kpis .kpi2:nth-child(2){grid-column:1/-1;order:-1}.kmoney{font-size:24px}.donut{width:124px;height:124px}.dleg div{grid-template-columns:10px 1fr auto 36px;padding:8px 9px;gap:7px}.stt{padding:11px 9px}.stt span{font-size:9.5px}.stt em{font-size:10.5px}}
+</style>
+</head>
+<body>
+<div id="app"><div class="boot"><div><div class="spin"></div>Carregando…</div></div></div>
+<div id="modal-root"></div>
+<div id="toast"></div>
+<input type="file" id="qrFile" accept="image/*" capture="environment" hidden>
+<script>
+"use strict";
+/* ============ utilidades ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>{if(typeof v==='number')return isFinite(v)?v:0;const s=String(v??'').trim().replace(/\s|R\$/g,'');if(!s)return 0;const n=s.includes(',')?parseFloat(s.replace(/\./g,'').replace(',','.')):parseFloat(s);return isNaN(n)?0:n};
+const r3=v=>Math.round(v*1000)/1000;
+const brl=v=>(+v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const fmtN=v=>(+v||0).toLocaleString('pt-BR',{maximumFractionDigits:3});
+const fmtD=iso=>iso?String(iso).slice(0,10).split('-').reverse().join('/'):'';
+const isoOf=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=()=>isoOf(new Date());
+const fmtDT=ms=>ms?new Date(ms).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+const ini=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(p=>p[0]).join('').toUpperCase();
+const ICON={
+ dashboard:'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+ estoque:'M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8',
+ entrada:'M12 5v14M5 12h14',
+ relatorios:'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8',
+ etiquetas:'M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01',
+ usuarios:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+ config:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',
+ more:'M4 6h16M4 12h16M4 18h16',
+ logout:'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',
+ qr:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4',
+ search:'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3',
+ camera:'M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+ out:'M7 17L17 7M8 7h9v9',
+ in:'M17 7L7 17M16 17H7V8',
+ x:'M18 6L6 18M6 6l12 12',
+ edit:'M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z',
+ trash:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',
+ key:'M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zM15.5 7.5l3 3L22 7l-3-3',
+ down:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
+ undo:'M3 7v6h6M21 17a9 9 0 0 0-15-6.7L3 13',
+ check:'M20 6L9 17l-5-5',
+ img:'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM21 15l-5-5L5 21'
+};
+const ic=(n,s)=>`<svg class="i" viewBox="0 0 24 24"${s?` style="width:${s}px;height:${s}px"`:''}><path d="${ICON[n]}"/></svg>`;
+function toast(msg,type){const t=document.createElement('div');t.textContent=msg;if(type)t.className=type;$('#toast').appendChild(t);setTimeout(()=>t.remove(),type==='err'?5200:2800)}
+const UNIDADES=['UN','PC','M','M²','M³','KG','L','CX','CJ','PAR','JG','RL','KIT','TB','GL'];
+const STATUS_SAIDA=['APLICAÇÃO','EMBARQUE','TRANSFERÊNCIA'];
+const stCls=s=>s==='APLICAÇÃO'?'ap':s==='EMBARQUE'?'em':'tr';
+const sitCls=s=>s==='EM ESTOQUE'?'est':s==='PARCIAL'?'par':'bx';
+const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+
+/* ============ bibliotecas sob demanda ============ */
+const FBV='10.14.1';
+const LIBS={
+ xlsx:{ok:()=>window.XLSX,urls:['libs/xlsx.full.min.js','https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js','https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js']},
+ jspdf:{ok:()=>window.jspdf,urls:['libs/jspdf.umd.min.js','https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js','https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js']},
+ qr:{ok:()=>window.qrcode,urls:['libs/qrcode.js','https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js','https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js']},
+ jsqr:{ok:()=>window.jsQR,urls:['libs/jsQR.js','https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js','https://unpkg.com/jsqr@1.4.0/dist/jsQR.js']},
+ fbapp:{ok:()=>window.firebase&&window.firebase.initializeApp,urls:['libs/firebase-app-compat.js','https://www.gstatic.com/firebasejs/'+FBV+'/firebase-app-compat.js']},
+ fbauth:{ok:()=>window.firebase&&window.firebase.auth,urls:['libs/firebase-auth-compat.js','https://www.gstatic.com/firebasejs/'+FBV+'/firebase-auth-compat.js']},
+ fbstore:{ok:()=>window.firebase&&window.firebase.firestore,urls:['libs/firebase-firestore-compat.js','https://www.gstatic.com/firebasejs/'+FBV+'/firebase-firestore-compat.js']}
+};
+const libP={};
+function loadLib(k){
+ const L=LIBS[k];if(L.ok())return Promise.resolve();
+ if(libP[k])return libP[k];
+ libP[k]=(async()=>{for(const u of L.urls){try{await new Promise((res,rej)=>{const s=document.createElement('script');s.src=u;s.onload=res;s.onerror=rej;document.head.appendChild(s)});if(L.ok())return}catch(e){}}libP[k]=null;throw new Error('Não foi possível carregar a biblioteca ('+k+'). Verifique a internet.')})();
+ return libP[k];
+}
+function qrReady(){if(window.qrcode&&!window.qrcode.__u8){window.qrcode.stringToBytes=s=>Array.from(new TextEncoder().encode(s));window.qrcode.__u8=1}}
+function makeQR(text){qrReady();const q=window.qrcode(0,'M');q.addData(text,'Byte');q.make();return q}
+function qrSVG(text){if(!window.qrcode)return '<div class="faint" style="font-size:10px;padding:20px 0">QR…</div>';const q=makeQR(text),n=q.getModuleCount();let d='';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+=`M${c} ${r}h1v1h-1z`;return `<svg viewBox="-1 -1 ${n+2} ${n+2}" shape-rendering="crispEdges"><rect x="-1" y="-1" width="${n+2}" height="${n+2}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`}
+
+/* ============ estado ============ */
+const S={db:null,auth:null,authReady:false,metaLoaded:false,hasAdmin:true,user:null,users:[],mats:[],config:{},loaded:{users:false,mats:false},stale:false,
+ view:'dashboard',editId:null,form:null,fotos:[],sel:new Set(),
+ q:'',fSit:'',fPlat:'',dash:{p:'30',plat:'',ct:'',de:'',ate:''},rep:{tipo:'todos',plat:'',de:'',ate:''},lab:{q:'',fmt:'termica'},readOnly:false};
+const cfg=()=>S.config||{};
+const empresa=()=>cfg().empresa||'Actemium';
+const isAdmin=()=>S.user&&S.user.perfil==='admin';
+
+function sit(m){
+ const sd=Array.isArray(m.saidas)?m.saidas:[];
+ const out=r3(sd.reduce((a,s)=>a+(+s.quantidade||0),0));
+ const saldo=Math.max(0,r3((+m.quantidade||0)-out));
+ const st=(sd.length&&saldo<=0)?'BAIXADO':out>0?'PARCIAL':'EM ESTOQUE';
+ return {out,saldo,st,last:sd[sd.length-1]||null,sd};
+}
+const getMat=id=>S.mats.find(m=>m.id===id);
+
+/* ============ inicialização / Firebase ============ */
+const FB_CONFIG={apiKey:"AIzaSyCqBnygw7wWtx86j29OeNee7sTnK6aQPHs",authDomain:"mpt-actemium.firebaseapp.com",projectId:"mpt-actemium",storageBucket:"mpt-actemium.firebasestorage.app",messagingSenderId:"28518496857",appId:"1:28518496857:web:cf569eaf5ef2831d3a0f48"};
+let unsubs=[];
+async function init(){
+ try{await loadLib('fbapp');await Promise.all([loadLib('fbauth'),loadLib('fbstore')])}
+ catch(e){return bootMsg('Sem conexão com a internet','Não foi possível iniciar o sistema. Verifique a conexão e abra o app novamente.')}
+ firebase.initializeApp(FB_CONFIG);
+ S.auth=firebase.auth();S.db=firebase.firestore();
+ try{await S.db.enablePersistence({synchronizeTabs:true})}catch(e){}
+ const timer=setTimeout(()=>{if(!S.metaLoaded)bootMsg('Conectando…','O servidor está demorando para responder. Verifique a internet.')},12000);
+ S.db.doc('config/geral').onSnapshot(s=>{S.config=s.exists?Object.assign({},s.data()):{};refresh()},()=>{});
+ S.db.doc('meta/admin').onSnapshot(s=>{clearTimeout(timer);S.hasAdmin=s.exists;S.metaLoaded=true;if(S.authReady&&(!S.user||!$('#view')))render()},e=>{clearTimeout(timer);S.metaLoaded=true;S.hasAdmin=true;if(S.authReady&&(!S.user||!$('#view')))render()});
+ S.auth.onAuthStateChanged(u=>{if(S.bootstrapping)return;handleUser(u)});
+}
+async function handleUser(u){
+ unsubs.forEach(f=>{try{f()}catch(e){}});unsubs=[];S.user=null;S.mats=[];S.users=[];S.loaded.mats=false;
+ if(!u){S.authReady=true;render();return}
+ try{
+  const d=await S.db.doc('usuarios/'+u.uid).get();
+  if(!d.exists||d.data().ativo===false){toast(d.exists?'Usuário desativado. Fale com o administrador.':'Este login não está cadastrado no sistema. Fale com o administrador.','err');await S.auth.signOut();return}
+  S.user=Object.assign({id:u.uid},d.data());
+ }catch(e){toast('Erro ao carregar seu perfil: '+(e.message||e),'err');await S.auth.signOut();return}
+ S.authReady=true;startData();S.view='dashboard';render();loadLib('qr').catch(()=>{});
+}
+function startData(){
+ unsubs.push(S.db.collection('materiais').onSnapshot(snap=>{
+   S.mats=snap.docs.map(d=>{const o=Object.assign({id:d.id},d.data());o.saidas=Array.isArray(o.saidas)?o.saidas.slice():[];return o});
+   S.loaded.mats=true;refresh(true);
+ },err=>toast('Erro ao carregar materiais: '+(err.message||err.code),'err')));
+ unsubs.push(S.db.collection('usuarios').onSnapshot(snap=>{
+   S.users=snap.docs.map(d=>Object.assign({id:d.id},d.data()));
+   const me=S.users.find(x=>S.user&&x.id===S.user.id);
+   if(me){if(me.ativo===false){toast('Seu usuário foi desativado.','err');S.auth.signOut();return}S.user=me}
+   refresh();
+ },()=>{}));
+}
+function bootMsg(t,d){$('#app').innerHTML=`<div class="boot"><div style="max-width:420px"><div class="wordmark" style="font-size:22px;margin-bottom:14px">${esc(empresa().toUpperCase())}</div><b style="color:var(--text);font-size:16px">${esc(t)}</b><p>${esc(d)}</p></div></div>`}
+function wErr(e){
+ console.error(e);const c=e&&e.code;
+ if(c==='permission-denied')toast('Sem permissão para esta operação.','err');
+ else if(c==='resource-exhausted')toast('Limite do banco de dados atingido. Tente mais tarde.','err');
+ else if(c==='unavailable')toast('Sem conexão com o servidor. Tente novamente.','err');
+ else toast('Erro ao salvar: '+(e&&e.message||c||e),'err');
+}
+// Grava sem travar a tela quando o aparelho está sem internet (o Firebase envia depois)
+function retry(fn){
+ const p=fn();
+ return Promise.race([p,new Promise(r=>setTimeout(()=>{p.catch(wErr);if(!navigator.onLine)toast('Sem internet: salvo no aparelho. Será enviado quando a conexão voltar.');r('pendente')},navigator.onLine?20000:700))]);
+}
+const AUTH_MSG={'auth/invalid-credential':'E-mail ou senha inválidos.','auth/wrong-password':'E-mail ou senha inválidos.','auth/user-not-found':'E-mail ou senha inválidos.','auth/invalid-login-credentials':'E-mail ou senha inválidos.','auth/too-many-requests':'Muitas tentativas. Aguarde alguns minutos.','auth/network-request-failed':'Sem conexão com a internet.','auth/email-already-in-use':'Este e-mail já possui login cadastrado.','auth/weak-password':'Senha fraca: use pelo menos 6 caracteres.','auth/invalid-email':'E-mail inválido.','auth/operation-not-allowed':'O login por e-mail/senha não está ativado no Firebase (Authentication → Método de login).','auth/requires-recent-login':'Por segurança, saia e entre novamente antes de trocar a senha.'};
+const authMsg=e=>AUTH_MSG[e&&e.code]||('Erro: '+(e&&e.message||e));
+function checkSession(){}
+function logout(){closeModal();S.view='dashboard';S.auth.signOut()}
+
+/* ============ render principal ============ */
+function refresh(fromMats){
+ if(!S.authReady||!S.metaLoaded)return;
+ if(!S.user){if(!$('#loginBox'))render();return}
+ if(!$('#view')){render();return}
+ if(S.view==='entrada'&&fromMats)return; // não apagar o formulário em edição
+ updateChrome();renderView();
+ const md=$('#modal-root .md');if(md&&md.dataset.mat&&fromMats){const m=getMat(md.dataset.mat);if(m&&!md.dataset.form)openDetail(m.id,true)}
+}
+function render(){
+ if(!S.authReady||!S.metaLoaded)return;
+ if(!S.user)return renderLogin();
+ const nav=navItems();
+ $('#app').innerHTML=`<div class="shell">
+  <aside class="side"><div class="brand" id="brandSide"></div><nav class="nav" id="navSide">${nav.map(n=>`<button data-act="go" data-v="${n.v}">${ic(n.v)}${n.t}</button>`).join('')}</nav>
+   <div class="me"><div class="av">${esc(ini(S.user.nome))}</div><div style="flex:1;min-width:0"><div class="nm">${esc(S.user.nome)}</div><div class="rl">${isAdmin()?'Administrador':'Usuário'}</div></div><button class="btn ghost sm" data-act="menuUser" title="Conta">${ic('key',16)}</button><button class="btn ghost sm" data-act="logout" title="Sair">${ic('logout',16)}</button></div></aside>
+  <div class="main"><header class="top"><div class="brand" id="brandTop"></div><button class="av" style="border:0;cursor:pointer" data-act="more">${esc(ini(S.user.nome))}</button></header>
+   <div class="content" id="view"></div></div>
+  <nav class="bnav" id="navBot">
+   <button data-act="go" data-v="dashboard">${ic('dashboard')}Painel</button>
+   <button data-act="go" data-v="estoque">${ic('estoque')}Estoque</button>
+   <button data-act="go" data-v="entrada" class="plus"><span class="pl">${ic('entrada')}</span>Entrada</button>
+   <button data-act="go" data-v="relatorios">${ic('relatorios')}Relatórios</button>
+   <button data-act="more">${ic('more')}Mais</button>
+  </nav></div>`;
+ updateChrome();renderView();
+}
+function navItems(){return [
+ {v:'dashboard',t:'Painel'},{v:'estoque',t:'Estoque'},{v:'entrada',t:'Nova entrada'},{v:'relatorios',t:'Relatórios Excel'},{v:'etiquetas',t:'Etiquetas'},
+ ...(isAdmin()?[{v:'usuarios',t:'Usuários'},{v:'config',t:'Configurações'}]:[])]}
+function brandHTML(){const c=cfg();return (c.logo?`<img src="${esc(c.logo)}" alt="">`:`<span class="wordmark">${esc(empresa().toUpperCase())}</span>`)+`<div><small>Controle de Materiais MPT</small></div>`}
+function updateChrome(){
+ ['#brandSide','#brandTop'].forEach(s=>{const e=$(s);if(e)e.innerHTML=brandHTML()});
+ document.querySelectorAll('[data-act="go"]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.view));
+}
+function go(v){
+ if(['usuarios','config'].includes(v)&&!isAdmin())v='dashboard';
+ if(v==='entrada'&&S.view!=='entrada'){S.editId=null;S.fotos=[];S.form=null}
+ S.view=v;closeModal();updateChrome();renderView();window.scrollTo(0,0);
+}
+function renderView(){
+ const el=$('#view');if(!el)return;
+ const f={dashboard:vDashboard,estoque:vEstoque,entrada:vEntrada,relatorios:vRelatorios,etiquetas:vEtiquetas,usuarios:vUsuarios,config:vConfig}[S.view]||vDashboard;
+ el.innerHTML=f();
+ if(S.view==='entrada')afterEntrada();
+}
+
+/* ============ login ============ */
+function renderLogin(){
+ const first=!S.hasAdmin;const c=cfg();
+ $('#app').innerHTML=`<div class="login"><div class="card" id="loginBox">
+  <div class="lg">${c.logo?`<img src="${esc(c.logo)}" alt="">`:`<div class="wordmark">${esc(empresa().toUpperCase())}</div>`}
+   <h2>${first?'Primeiro acesso':'Controle de Materiais MPT'}</h2><p>${first?'Crie a conta do administrador do sistema.':'Entre com seu e-mail e senha.'}</p></div>
+  ${first?`<form data-form="bootstrap">
+    <div class="f"><label>Nome completo</label><input class="in" name="nome" required autocomplete="name"></div>
+    <div class="f"><label>E-mail (login)</label><input class="in" type="email" name="email" required autocapitalize="none" autocomplete="username"></div>
+    <div class="f"><label>Senha (mín. 6)</label><input class="in" type="password" name="senha" required minlength="6" autocomplete="new-password"></div>
+    <div class="f"><label>Confirmar senha</label><input class="in" type="password" name="senha2" required minlength="6" autocomplete="new-password"></div>
+    <div class="note">Esta conta será a <b>única administradora</b>. Ela cadastra os demais usuários e configura a logo das etiquetas.</div>
+    <button class="btn p" type="submit">Criar administrador e entrar</button></form>`
+  :`<form data-form="login">
+    <div class="f"><label>E-mail</label><input class="in" type="email" name="email" required autocapitalize="none" autocomplete="username"></div>
+    <div class="f"><label>Senha</label><input class="in" type="password" name="senha" required autocomplete="current-password"></div>
+    <button class="btn p" type="submit">Entrar</button>
+    <button class="btn ghost sm" type="button" data-act="forgot">Esqueci minha senha</button>
+    <p class="faint" style="text-align:center;font-size:12px;margin:0">Sem acesso? Peça ao administrador para cadastrar você.</p></form>`}
+ </div></div>`;
+}
+const FORMS={};
+FORMS.login=async f=>{
+ const btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Entrando…';
+ try{await S.auth.signInWithEmailAndPassword(f.email.value.trim(),f.senha.value)}
+ catch(e){toast(authMsg(e),'err')}
+ finally{if(btn.isConnected){btn.disabled=false;btn.textContent='Entrar'}}
+};
+FORMS.bootstrap=async f=>{
+ const nome=f.nome.value.trim(),email=f.email.value.trim();
+ if(f.senha.value!==f.senha2.value)return toast('As senhas não conferem.','err');
+ const btn=f.querySelector('button[type=submit]');btn.disabled=true;
+ S.bootstrapping=true;let cred=null;
+ try{
+  cred=await S.auth.createUserWithEmailAndPassword(email,f.senha.value);
+  const uid=cred.user.uid,now=Date.now();
+  const b=S.db.batch();
+  b.set(S.db.doc('meta/admin'),{uid,criadoEm:now});
+  b.set(S.db.doc('usuarios/'+uid),{nome,email,perfil:'admin',ativo:true,criadoEm:now,criadoPor:nome});
+  await b.commit();
+  S.bootstrapping=false;toast('Administrador criado. Bem-vindo!');await handleUser(S.auth.currentUser);
+ }catch(e){
+  S.bootstrapping=false;
+  if(cred){try{await cred.user.delete()}catch(x){}toast(e.code==='permission-denied'?'O banco recusou a gravação. Confira se as regras do Firestore foram publicadas.':'Erro ao criar administrador: '+(e.message||e),'err')}
+  else toast(authMsg(e),'err');
+  if(btn.isConnected)btn.disabled=false;
+ }
+};
+function forgotModal(){openModal(`<form data-form="forgot"><div class="mh"><h2>Recuperar senha</h2><button type="button" class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+ <div class="mb grid"><p class="muted" style="margin:0">Informe seu e-mail. Você receberá um link para criar uma nova senha.</p><div class="f"><label>E-mail</label><input class="in" type="email" name="email" required autocapitalize="none"></div></div>
+ <div class="mf"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn p" type="submit">Enviar link</button></div></form>`,'',{form:1})}
+FORMS.forgot=async f=>{try{await S.auth.sendPasswordResetEmail(f.email.value.trim());closeModal();toast('Link enviado. Verifique seu e-mail (e a caixa de spam).')}catch(e){toast(authMsg(e),'err')}};
+
+/* ============ DASHBOARD ============ */
+function dashRange(){
+ const p=S.dash.p,t=new Date();let de='',ate=today();
+ if(p==='7'||p==='30'||p==='90'||p==='365'){const d=new Date();d.setDate(d.getDate()-(+p-1));de=isoOf(d)}
+ else if(p==='mes')de=isoOf(new Date(t.getFullYear(),t.getMonth(),1));
+ else if(p==='ano')de=t.getFullYear()+'-01-01';
+ else if(p==='tudo'){de='0000-01-01';ate='9999-12-31'}
+ else if(p==='custom'){de=S.dash.de||'0000-01-01';ate=S.dash.ate||'9999-12-31'}
+ return [de,ate];
+}
+const inR=(d,[a,b])=>d&&d>=a&&d<=b;
+function vDashboard(){
+ const [a,b]=dashRange(),pl=S.dash.plat;
+ const ct=S.dash.ct;const mats=S.mats.filter(m=>(!pl||m.plataforma===pl)&&(!ct||(m.contrato||'')===ct));
+ const contrs=[...new Set(S.mats.map(m=>m.contrato).filter(Boolean))].sort();
+ let estQ=0,estV=0,bx=0,par=0,est=0,entN=0,entV=0,saiN=0;const stC={'APLICAÇÃO':0,'EMBARQUE':0,'TRANSFERÊNCIA':0};
+ const byPlat={};const ev=[];
+ mats.forEach(m=>{const s=sit(m);
+  if(s.saldo>0){estQ++;estV+=s.saldo*(+m.valorUnit||0)}
+  if(s.st==='BAIXADO')bx++;else if(s.st==='PARCIAL')par++;else est++;
+  if(s.saldo>0){const k=m.plataforma||'(sem plataforma)';byPlat[k]=(byPlat[k]||0)+1}
+  if(inR(m.data,[a,b])){entN++;entV+=(+m.valorTotal||0)}
+  ev.push({t:'in',ts:m.criadoEm||0,d:m.data,m});
+  s.sd.forEach(x=>{if(inR(x.data,[a,b])){saiN++;if(stC[x.status]!=null)stC[x.status]++}ev.push({t:'out',ts:x.em||0,d:x.data,m,s:x})});
+ });
+ // mensal: 6 meses terminando no mês de "ate" (ou atual)
+ const endD=(S.dash.p==='custom'&&S.dash.ate)?new Date(S.dash.ate+'T12:00'):new Date();
+ const months=[];for(let i=5;i>=0;i--){const d=new Date(endD.getFullYear(),endD.getMonth()-i,1);months.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}
+ const mi=Object.fromEntries(months.map((k,i)=>[k,i]));const eIn=months.map(()=>0),eOut=months.map(()=>0);
+ mats.forEach(m=>{const k=(m.data||'').slice(0,7);if(k in mi)eIn[mi[k]]++;sit(m).sd.forEach(x=>{const k2=(x.data||'').slice(0,7);if(k2 in mi)eOut[mi[k2]]++})});
+ const MN=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+ const labels=months.map(k=>MN[+k.slice(5)-1]+'/'+k.slice(2,4));
+ const plats=[...new Set(S.mats.map(m=>m.plataforma).filter(Boolean))].sort();
+ const platArr=Object.entries(byPlat).sort((x,y)=>y[1]-x[1]).slice(0,8);const pmax=Math.max(1,...platArr.map(x=>x[1]));
+ const stMax=Math.max(1,...Object.values(stC));
+ const tot=Math.max(1,est+par+bx);
+ ev.sort((x,y)=>(y.ts||0)-(x.ts||0));
+const periodos=[['7','7 dias'],['30','30 dias'],['90','90 dias'],['mes','Este mês'],['ano','Este ano'],['tudo','Tudo'],['custom','Período']];
+ const rangeTxt=S.dash.p==='tudo'?'Todo o histórico':S.dash.p==='custom'&&!S.dash.de&&!S.dash.ate?'Defina as datas':`${fmtD(a.startsWith('0000')?'':a)||'início'} – ${fmtD(b.startsWith('9999')?'':b)||'hoje'}`;
+ const hoje=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+ const h=new Date().getHours();const saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
+ const kpi=(icn,cor,bg,lb,vl,sb)=>`<div class="card kpi2" style="--c:${cor};--cb:${bg}"><div class="kt"><span class="kic">${ic(icn,18)}</span><span class="klb">${lb}</span></div><div class="kvl">${vl}</div><div class="ksb">${sb}</div></div>`;
+ const stCols=['#0b5cad','#6941c6','#c2570c'],stBg=['#e7f0fb','#f1ecfb','#fdf0e6'];const stTot=Math.max(1,saiN);
+ const platCols=['#0b5cad','#1570c9','#2e86de','#4c9be8','#6aaef0','#8bc0f4','#a9d0f7','#c6e0fa'];
+ return `<div class="hero"><div class="hero-l"><div class="hero-d">${esc(hoje)}</div><h1>${saud}, ${esc(S.user.nome.split(' ')[0])}!</h1><p>Resumo dos materiais MPT${ct?' — contrato <b>'+esc(ct)+'</b>':''}${pl?' — plataforma <b>'+esc(pl)+'</b>':''}.</p></div>
+  <div class="hero-r"><button class="btn hb1" data-act="go" data-v="entrada">${ic('entrada',16)}Nova entrada</button><button class="btn hb2" data-act="scanQR">${ic('qr',16)}Ler QR</button><button class="btn hb2" data-act="go" data-v="relatorios">${ic('relatorios',16)}Relatório</button></div></div>
+  <div class="dbar"><div class="pill-tabs">${periodos.map(([k,t])=>`<button class="${S.dash.p===k?'on':''}" data-act="dashP" data-p="${k}">${t}</button>`).join('')}</div>
+   ${S.dash.p==='custom'?`<div class="row" style="gap:6px"><input type="date" class="in" style="width:auto;padding:7px 10px" value="${esc(S.dash.de)}" data-chg="dashDe"><span class="muted">até</span><input type="date" class="in" style="width:auto;padding:7px 10px" value="${esc(S.dash.ate)}" data-chg="dashAte"></div>`:''}
+   <span class="rng">${ic('dashboard',14)}${esc(rangeTxt)}</span>
+   <div class="dsel"><select class="in" data-chg="dashCt"><option value="">Todos os contratos</option>${contrs.map(c=>`<option ${c===ct?'selected':''}>${esc(c)}</option>`).join('')}</select><select class="in" data-chg="dashPlat"><option value="">Todas as plataformas</option>${plats.map(p=>`<option ${p===pl?'selected':''}>${esc(p)}</option>`).join('')}</select>${(ct||pl)?`<button class="btn sm" data-act="dashClr">Limpar</button>`:''}</div></div>
+  <div class="kpis">
+   ${kpi('estoque','#0b5cad','#e7f0fb','Itens em estoque',estQ,`${est} completos · ${par} parciais`)}
+   ${kpi('relatorios','#6941c6','#f1ecfb','Valor em estoque',`<span class="kmoney">${brl(estV)}</span>`,'saldo × valor unitário')}
+   ${kpi('in','#0f8a5f','#e5f5ee','Entradas no período',entN,brl(entV))}
+   ${kpi('out','#c2570c','#fdf0e6','Saídas no período',saiN,`${stC['APLICAÇÃO']} aplic. · ${stC['EMBARQUE']} emb. · ${stC['TRANSFERÊNCIA']} transf.`)}
+   ${kpi('check','#475569','#eef1f5','Materiais baixados',bx,`de ${mats.length} cadastrados`)}
+  </div>
+  <div class="grid dg1">
+   <div class="card pad"><div class="ch"><h3>Movimentação mensal</h3><div class="legend" style="margin:0"><span><i style="background:#0f8a5f"></i>Entradas</span><span><i style="background:#c2570c"></i>Saídas</span></div></div>
+    <div class="muted" style="font-size:12px;margin:-6px 0 6px">Quantidade de lançamentos nos últimos 6 meses</div>${chartBars(labels,[{n:'Entradas',c:'#0f8a5f',v:eIn},{n:'Saídas',c:'#c2570c',v:eOut}])}</div>
+   <div class="card pad"><h3>Situação do estoque</h3>
+    <div class="donutw">${donut([[est,'#0f8a5f'],[par,'#d69e2e'],[bx,'#94a3b8']],mats.length,'materiais')}
+     <div class="dleg">${[['Em estoque',est,'#0f8a5f'],['Parcial',par,'#d69e2e'],['Baixado',bx,'#94a3b8']].map(([t,v,c])=>`<div><i style="background:${c}"></i><span>${t}</span><b>${v}</b><em>${Math.round(v/tot*100)}%</em></div>`).join('')}</div></div>
+   </div>
+  </div>
+  <div class="grid dg2" style="margin-top:14px">
+   <div class="card pad"><h3>Saídas por status <small>no período</small></h3>
+    <div class="sttiles">${STATUS_SAIDA.map((k,i)=>`<div class="stt" style="background:${stBg[i]};color:${stCols[i]}"><span>${k}</span><b>${stC[k]}</b><div class="sbar"><i style="width:${stC[k]/stTot*100}%;background:${stCols[i]}"></i></div><em>${saiN?Math.round(stC[k]/stTot*100):0}% das saídas</em></div>`).join('')}</div></div>
+   <div class="card pad"><h3>Estoque por plataforma <small>itens com saldo</small></h3>${platArr.length?platArr.map(([k,v],i)=>`<div class="hb"><span title="${esc(k)}"><em class="rk">${i+1}</em>${esc(k)}</span><div class="tr"><i style="width:${v/pmax*100}%;background:${platCols[i]}"></i></div><b>${v}</b></div>`).join(''):'<div class="empty">Nenhum item em estoque.</div>'}</div>
+  </div>
+  <div class="card pad" style="margin-top:14px"><div class="ch"><h3>Atualizações recentes</h3><button class="btn sm" data-act="go" data-v="estoque">Ver estoque</button></div>${ev.length?`<div class="acts">${ev.slice(0,10).map(e=>`<div class="act" data-act="detail" data-id="${e.m.id}" style="cursor:pointer">
+     <div class="ic ${e.t}">${ic(e.t==='in'?'in':'out',16)}</div>
+     <div class="tx"><b>${e.t==='in'?'Entrada':'Saída'}</b> · ${esc(e.m.descricao||'')}<div>${esc(e.m.codigo||'')}${e.m.plataforma?' · '+esc(e.m.plataforma):''}${e.t==='out'?` · ${fmtN(e.s.quantidade)} ${esc(e.m.unidade||'')} <span class="chip ${stCls(e.s.status)}" style="padding:1px 7px">${esc(e.s.status)}</span>`:` · ${fmtN(e.m.quantidade)} ${esc(e.m.unidade||'')}`} · ${esc(e.t==='in'?(e.m.criadoPor||''):(e.s.usuario||''))}</div></div>
+     <time>${fmtD(e.d)}</time></div>`).join('')}</div>`:'<div class="empty"><b>Nenhuma movimentação ainda</b>Registre a primeira entrada de material.</div>'}</div>`;
+}
+function donut(parts,total,lab){const R=52,C=2*Math.PI*R;const sum=parts.reduce((a,p)=>a+p[0],0);let off=0;
+ const segs=sum?parts.filter(p=>p[0]>0).map(([v,c])=>{const len=v/sum*C;const g=parts.filter(p=>p[0]>0).length>1?2:0;const s=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${c}" stroke-width="18" stroke-dasharray="${Math.max(0,len-g)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;off+=len;return s}).join(''):'';
+ return `<svg viewBox="0 0 140 140" class="donut"><circle r="${R}" cx="70" cy="70" fill="none" stroke="#eef2f7" stroke-width="18"/>${segs}<text x="70" y="68" text-anchor="middle" style="font-size:26px;font-weight:700;fill:#0f1b2d">${total}</text><text x="70" y="88" text-anchor="middle" style="font-size:11px;fill:#5b6b80">${lab}</text></svg>`}
+function niceMax(v){let st=Math.max(1,Math.ceil(v/4));const p=Math.pow(10,Math.floor(Math.log10(st)));const n=st/p;st=(n<=1?1:n<=2?2:n<=5?5:10)*p;return st*4}
+function chartBars(labels,series){
+ const sm=window.innerWidth<600;const W=sm?360:620,H=sm?210:230,pl=30,pr=8,pt=14,pb=26,ih=H-pt-pb,iw=W-pl-pr;
+ const mx=niceMax(Math.max(1,...series.flatMap(s=>s.v)));const cw=iw/labels.length;const bw=Math.min(26,cw*0.32);
+ let g='';for(let i=0;i<=4;i++){const y=pt+ih-ih*i/4;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="#e2e8f0" ${i?'stroke-dasharray="3 4"':''}/><text x="${pl-6}" y="${y+4}" text-anchor="end">${Math.round(mx*i/4)}</text>`}
+ labels.forEach((l,i)=>{const cx=pl+cw*i+cw/2;series.forEach((s,j)=>{const v=s.v[i],h=v/mx*ih,x=cx-(series.length*bw+(series.length-1)*4)/2+j*(bw+4),y=pt+ih-h;
+   g+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(0,h)}" rx="4" fill="${s.c}"><title>${s.n}: ${v}</title></rect>`;if(v)g+=`<text x="${x+bw/2}" y="${y-4}" text-anchor="middle" style="fill:#0f1b2d;font-weight:600">${v}</text>`});
+  g+=`<text x="${cx}" y="${H-7}" text-anchor="middle">${esc(l)}</text>`});
+ return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%">${g}</svg>`;
+}
+
+/* ============ ESTOQUE ============ */
+function filtered(){
+ const q=S.q.trim().toLowerCase();
+ return S.mats.filter(m=>{const s=sit(m);
+  if(S.fSit&&s.st!==S.fSit)return false;if(S.fPlat&&m.plataforma!==S.fPlat)return false;
+  if(q){const hay=[m.codigo,m.descricao,m.nf,m.nm,m.rt,m.ss,m.contrato,m.registro,m.plataforma,m.local,m.observacao,...s.sd.flatMap(x=>[x.nf,x.nfDevolucao,x.rtFwo,x.op,x.status])].join(' ').toLowerCase();if(!hay.includes(q))return false}
+  return true}).sort((a,b)=>(b.data||'').localeCompare(a.data||'')||(b.criadoEm||0)-(a.criadoEm||0));
+}
+function vEstoque(){
+ const plats=[...new Set(S.mats.map(m=>m.plataforma).filter(Boolean))].sort();
+ return `<div class="ph"><div><h1>Estoque</h1><p>${S.mats.length} materiais cadastrados</p></div>
+  <div class="row"><button class="btn" data-act="scanQR">${ic('qr',16)}Ler QR</button><button class="btn p" data-act="go" data-v="entrada">${ic('entrada',16)}Nova entrada</button></div></div>
+  <div class="filters"><div class="searchw">${ic('search',16)}<input class="in" placeholder="Buscar código, descrição, NF, NM, RT, SS, OP, local…" value="${esc(S.q)}" data-inp="q"></div>
+   <select class="in" data-chg="fSit"><option value="">Todas as situações</option>${['EM ESTOQUE','PARCIAL','BAIXADO'].map(s=>`<option ${S.fSit===s?'selected':''}>${s}</option>`).join('')}</select>
+   <select class="in" data-chg="fPlat"><option value="">Todas as plataformas</option>${plats.map(p=>`<option ${S.fPlat===p?'selected':''}>${esc(p)}</option>`).join('')}</select>
+   ${(S.q||S.fSit||S.fPlat)?`<button class="btn" data-act="clearF">Limpar</button>`:'<span></span>'}</div>
+  <div id="lista">${listaHTML()}</div>`;
+}
+function listaHTML(){
+ const L=filtered();
+ if(!S.loaded.mats)return `<div class="card empty"><div class="spin"></div>Carregando materiais…</div>`;
+ if(!L.length)return `<div class="card empty"><b>${S.mats.length?'Nenhum material encontrado':'Estoque vazio'}</b>${S.mats.length?'Ajuste a busca ou os filtros.':'Cadastre a primeira entrada de material.'}</div>`;
+ const allSel=L.every(m=>S.sel.has(m.id));
+ return `<div class="card tw"><table class="tbl rsp"><thead><tr><th style="width:36px"><input type="checkbox" data-chg="selAll" ${allSel?'checked':''}></th><th>Material</th><th>Data</th><th>NF</th><th>Plataforma</th><th>Local</th><th style="text-align:right">Saldo</th><th>Situação</th></tr></thead><tbody>
+ ${L.map(m=>{const s=sit(m);return `<tr class="click" data-act="detail" data-id="${m.id}">
+  <td class="ck" data-stop="1"><input type="checkbox" data-chg="sel" data-id="${m.id}" ${S.sel.has(m.id)?'checked':''}></td>
+  <td class="desc">${esc(m.descricao)}<small>${esc(m.codigo)}${m.nm?' · NM '+esc(m.nm):''}</small></td>
+  <td data-l="Entrada" class="mono">${fmtD(m.data)}</td><td data-l="NF">${esc(m.nf||'—')}</td><td data-l="Plataforma">${esc(m.plataforma||'—')}</td><td data-l="Local" class="hm">${esc(m.local||'—')}</td>
+  <td data-l="Saldo" class="mono" style="text-align:right;font-weight:600">${fmtN(s.saldo)} <span class="muted" style="font-weight:500">${esc(m.unidade||'')}</span></td>
+  <td><span class="chip ${sitCls(s.st)}">${s.st}</span>${s.last?` <span class="chip ${stCls(s.last.status)}">${esc(s.last.status)}</span>`:''}</td></tr>`}).join('')}
+ </tbody></table></div>
+ ${S.sel.size?`<div class="sel-bar"><span><b>${S.sel.size}</b> selecionado(s)</span><div class="row"><button class="btn sm" data-act="clearSel" style="background:#24324a;color:#fff">Limpar</button><button class="btn sm p" data-act="goLabels">${ic('etiquetas',15)}Gerar etiquetas</button></div></div>`:''}`;
+}
+function renderList(){const l=$('#lista');if(l)l.innerHTML=listaHTML()}
+
+/* ============ DETALHE ============ */
+function openDetail(id,keep){
+ const m=getMat(id);if(!m)return;const s=sit(m);
+ const F=(l,v,cls)=>`<div class="${cls||''}"><small>${l}</small><b>${v===''||v==null?'—':v}</b></div>`;
+ openModal(`<div class="mh"><div><h2>${esc(m.descricao)}</h2><div class="row" style="margin-top:6px;gap:6px"><span class="chip ${sitCls(s.st)}">${s.st}</span>${s.last?`<span class="chip ${stCls(s.last.status)}">${esc(s.last.status)}</span>`:''}<span class="muted mono" style="font-size:12.5px">${esc(m.codigo)}</span></div></div><button class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+ <div class="mb">
+  <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
+   <div class="dl" style="flex:1;min-width:260px">
+    ${F('Data',fmtD(m.data))}${F('Contrato',esc(m.contrato))}${F('NF',esc(m.nf))}${F('NM',esc(m.nm))}${F('RT',esc(m.rt))}${F('SS',esc(m.ss))}${F('Registro',esc(m.registro))}${F('Plataforma',esc(m.plataforma))}${F('Local de armazenamento',esc(m.local))}
+    ${F('Quantidade entrada',fmtN(m.quantidade)+' '+esc(m.unidade||''))}${F('Saldo atual',`<span style="color:var(--pri)">${fmtN(s.saldo)} ${esc(m.unidade||'')}</span>`)}${F('Unidade',esc(m.unidade))}
+    ${F('Valor unitário',brl(m.valorUnit))}${F('Valor total',brl(m.valorTotal))}${F('Valor do saldo',brl(s.saldo*(+m.valorUnit||0)))}
+    ${m.observacao?F('Observação',esc(m.observacao),'full'):''}
+    <div class="full faint" style="font-size:12px">Cadastrado por ${esc(m.criadoPor||'—')} em ${fmtDT(m.criadoEm)}${m.atualizadoPor?` · atualizado por ${esc(m.atualizadoPor)} em ${fmtDT(m.atualizadoEm)}`:''}</div>
+   </div>
+   <div style="width:132px;text-align:center"><div id="qrBox" style="border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff">${qrSVG(qrText(m))}</div><div class="faint" style="font-size:11px;margin-top:4px">QR de identificação</div></div>
+  </div>
+  ${(+m.fotos||0)>0?`<div class="sec">Fotos</div><div class="photos" id="detFotos"><span class="muted">Carregando fotos…</span></div>`:''}
+  <div class="sec">Saídas (${s.sd.length})</div>
+  ${s.sd.length?s.sd.map((x,i)=>`<div class="hist"><div class="hh"><div class="row" style="gap:8px"><span class="chip ${stCls(x.status)}">${esc(x.status)}</span><b class="mono">${fmtN(x.quantidade)} ${esc(m.unidade||'')}</b><span class="muted">${fmtD(x.data)}</span></div>${isAdmin()?`<button class="btn sm d" data-act="estornar" data-id="${m.id}" data-i="${i}">${ic('undo',14)}Estornar</button>`:''}</div>
+   <div class="hd">${x.nf?`<span>NF: <b>${esc(x.nf)}</b></span>`:''}${x.nfDevolucao?`<span>NF devolução: <b>${esc(x.nfDevolucao)}</b></span>`:''}${x.rtFwo?`<span>RT/FWO: <b>${esc(x.rtFwo)}</b></span>`:''}${x.op?`<span>OP: <b>${esc(x.op)}</b></span>`:''}<span>por ${esc(x.usuario||'—')}</span></div>
+   ${x.observacao?`<div class="hd">${esc(x.observacao)}</div>`:''}</div>`).join(''):'<div class="muted">Nenhuma saída registrada.</div>'}
+ </div>
+ <div class="mf">
+  ${isAdmin()?`<button class="btn d" data-act="delMat" data-id="${m.id}" style="margin-right:auto">${ic('trash',15)}Excluir</button>`:''}
+  <button class="btn" data-act="labelOne" data-id="${m.id}">${ic('etiquetas',15)}Etiqueta</button>
+  <button class="btn" data-act="editMat" data-id="${m.id}">${ic('edit',15)}Editar</button>
+  ${s.saldo>0?`<button class="btn o" data-act="saida" data-id="${m.id}">${ic('out',15)}Registrar saída</button>`:''}
+ </div>`,'lg',{mat:m.id});
+ if(!window.qrcode)loadLib('qr').then(()=>{const b=$('#qrBox');if(b)b.innerHTML=qrSVG(qrText(m))}).catch(()=>{});
+ if((+m.fotos||0)>0)loadFotos(m).then(arr=>{const b=$('#detFotos');if(b)b.innerHTML=arr.length?arr.map((u,i)=>`<div class="ph1"><img src="${u}" data-act="zoom" data-i="${i}"></div>`).join(''):'<span class="muted">Fotos não encontradas.</span>';S._zoom=arr});
+}
+const fotoCache={};
+async function loadFotos(m){
+ const key=m.id+':'+(m.fotosV||0);if(fotoCache[key])return fotoCache[key];
+ const out=[];for(let i=0;i<(+m.fotos||0);i++){try{const s=await S.db.doc('fotos/'+m.id+'-'+i).get();if(s.exists&&s.data().img)out.push(s.data().img)}catch(e){}}
+ fotoCache[key]=out;return out;
+}
+function qrText(m){
+ const d=String(m.descricao||'').slice(0,70);
+ return `${empresa().toUpperCase()} - MPT\nCOD: ${m.codigo||''}\n${d}\nNF: ${m.nf||'-'} | NM: ${m.nm||'-'}\nPLAT: ${m.plataforma||'-'} | LOCAL: ${m.local||'-'}\nQTD: ${fmtN(m.quantidade)} ${m.unidade||''} | ENT: ${fmtD(m.data)}\nID:${m.id}`;
+}
+
+/* ============ ENTRADA ============ */
+function vEntrada(){
+ const m=S.editId?getMat(S.editId):null;const v=S.form||m||{};
+ const plats=[...new Set(S.mats.map(x=>x.plataforma).filter(Boolean))].sort();
+ const locs=[...new Set(S.mats.map(x=>x.local).filter(Boolean))].sort();
+ const contr=[...new Set(S.mats.map(x=>x.contrato).filter(Boolean))].sort();
+ const I=(name,label,o={})=>`<div class="f${o.cls?' '+o.cls:''}"><label>${label}${o.req?' <span class="req">*</span>':''}</label><input class="in" name="${name}" value="${esc(o.val!=null?o.val:(v[name]??''))}" ${o.req?'required':''} ${o.type?`type="${o.type}"`:''} ${o.list?`list="${o.list}"`:''} ${o.im?`inputmode="${o.im}"`:''} ${o.ro?'readonly':''} placeholder="${esc(o.ph||'')}" autocomplete="off"></div>`;
+ const nb=x=>x===''||x==null?'':String(x).replace('.',',');
+ return `<div class="ph"><div><h1>${m?'Editar entrada':'Nova entrada de material'}</h1><p>${m?esc(m.codigo):'Preencha os dados do recebimento. Campos com * são obrigatórios.'}</p></div>${m?`<button class="btn" data-act="cancelEdit">Cancelar</button>`:''}</div>
+ <form class="card pad" data-form="entrada" id="fEntrada" style="max-width:980px">
+  <div class="sec">Documentos</div>
+  <div class="grid g4 fg">${I('data','Data',{type:'date',req:1,val:v.data||today()})}${I('contrato','Contrato',{list:'dlContr'})}${I('nf','NF')}${I('nm','NM')}${I('rt','RT')}${I('ss','SS')}${I('registro','Registro')}${I('plataforma','Plataforma',{list:'dlPlat',ph:'Ex.: P-74'})}</div>
+  <div class="sec">Material</div>
+  <div class="grid fg" style="grid-template-columns:minmax(0,3fr) minmax(0,1fr)"><div class="f"><label>Descrição <span class="req">*</span></label><input class="in" name="descricao" required value="${esc(v.descricao||'')}" autocomplete="off"></div>
+   ${I('codigo','Código',{ph:'Gerado automaticamente se vazio'})}</div>
+  <div class="grid g4 fg" style="margin-top:14px">${I('unidade','Unidade de medida',{req:1,list:'dlUn',val:v.unidade||'UN'})}${I('quantidade','Quantidade',{req:1,im:'decimal',val:nb(v.quantidade)})}${I('valorUnit','Valor unitário (R$)',{im:'decimal',val:nb(v.valorUnit),ph:'0,00'})}${I('valorTotal','Valor total (R$)',{ro:1,val:v.valorTotal!=null&&v.valorTotal!==''?brl(v.valorTotal):''})}</div>
+  <div class="grid g2 fg" style="margin-top:14px">${I('local','Local de armazenamento',{list:'dlLoc',ph:'Ex.: Galpão A – Prateleira 3'})}<div></div></div>
+  <div class="sec">Foto e observação</div>
+  <div class="photos" id="fotosBox"></div>
+  <input type="file" id="fotoInput" accept="image/*" multiple hidden data-chg="fotos"><input type="file" id="fotoCam" accept="image/*" capture="environment" hidden data-chg="fotos">
+  <div class="f" style="margin-top:14px"><label>Observação</label><textarea class="in" name="observacao">${esc(v.observacao||'')}</textarea></div>
+  <div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn" type="button" data-act="${m?'cancelEdit':'resetEntrada'}">${m?'Cancelar':'Limpar'}</button><button class="btn p" type="submit" id="btnSalvar">${m?'Salvar alterações':'Registrar entrada'}</button></div>
+  <datalist id="dlPlat">${plats.map(p=>`<option value="${esc(p)}">`).join('')}</datalist><datalist id="dlLoc">${locs.map(p=>`<option value="${esc(p)}">`).join('')}</datalist><datalist id="dlContr">${contr.map(p=>`<option value="${esc(p)}">`).join('')}</datalist><datalist id="dlUn">${UNIDADES.map(p=>`<option value="${p}">`).join('')}</datalist>
+ </form>`;
+}
+function afterEntrada(){
+ const f=$('#fEntrada');if(!f)return;
+ const calc=()=>{const t=r3(num(f.quantidade.value)*num(f.valorUnit.value));f.valorTotal.value=(f.quantidade.value&&f.valorUnit.value)?brl(Math.round(t*100)/100):''};
+ f.quantidade.addEventListener('input',calc);f.valorUnit.addEventListener('input',calc);
+ f.addEventListener('input',()=>{S.form=formObj(f)});
+ if(S.editId&&!S._fotosLoaded&&!S._fotosLoading){const m=getMat(S.editId);if(m&&+m.fotos){S._fotosLoading=true;loadFotos(m).then(a=>{S.fotos=S._fotosDirty?[...a,...S.fotos].slice(0,4):a.slice();S._fotosLoaded=true;S._fotosLoading=false;renderFotos()}).catch(()=>{S._fotosLoading=false})}else S._fotosLoaded=true}
+ renderFotos();calc();
+}
+function formObj(f){const o={};['data','contrato','nf','nm','rt','ss','registro','plataforma','descricao','codigo','unidade','quantidade','valorUnit','local','observacao'].forEach(k=>o[k]=f[k].value);return o}
+function renderFotos(){const b=$('#fotosBox');if(!b)return;
+ b.innerHTML=S.fotos.map((u,i)=>`<div class="ph1"><img src="${u}" data-act="zoomForm" data-i="${i}"><button type="button" data-act="rmFoto" data-i="${i}">×</button></div>`).join('')+(S.fotos.length<4?`<label class="addph" for="fotoCam">${ic('camera',22)}Tirar foto</label><label class="addph" for="fotoInput">${ic('img',22)}Galeria</label>`:'')+`<div class="faint" style="width:100%;font-size:12px">${S.fotos.length}/4 fotos · use a câmera no ato do recebimento ou escolha fotos já tiradas</div>`}
+function compressImg(file,max=1100,q=0.72){return new Promise((res,rej)=>{const img=new Image();const url=URL.createObjectURL(file);
+ img.onload=()=>{let w=img.naturalWidth,h=img.naturalHeight;let out='';let mx=max,qq=q;
+  for(let k=0;k<6;k++){const r=Math.min(1,mx/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.round(w*r);c.height=Math.round(h*r);const cx=c.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,c.width,c.height);cx.drawImage(img,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',qq);if(out.length<190000)break;mx*=0.8;qq=Math.max(0.45,qq-0.07)}
+  URL.revokeObjectURL(url);res(out)};img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('Imagem inválida'))};img.src=url})}
+function genCode(){const d=new Date();const p=(cfg().prefixo||'EST').toUpperCase();return `${p}-${String(d.getFullYear()).slice(2)}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${Math.random().toString(36).slice(2,6).toUpperCase()}`}
+FORMS.entrada=async f=>{
+ const o=formObj(f);o.descricao=o.descricao.trim();
+ const q=num(o.quantidade);if(q<=0)return toast('Informe uma quantidade maior que zero.','err');
+ const old=S.editId?getMat(S.editId):null;
+ if(old){const out=sit(old).out;if(q<out)return toast(`Quantidade não pode ser menor que o total já baixado (${fmtN(out)}).`,'err')}
+ o.codigo=(o.codigo||'').trim()||genCode();
+ const dup=S.mats.find(x=>x.codigo&&x.codigo.toLowerCase()===o.codigo.toLowerCase()&&x.id!==S.editId);
+ if(dup&&!(await confirmBox(`Já existe um material com o código ${o.codigo} (${dup.descricao}). Salvar mesmo assim?`)))return;
+ const vu=num(o.valorUnit);
+ const now=Date.now();
+ const data={data:o.data,contrato:o.contrato.trim(),nf:o.nf.trim(),nm:o.nm.trim(),rt:o.rt.trim(),ss:o.ss.trim(),registro:o.registro.trim(),plataforma:o.plataforma.trim().toUpperCase(),descricao:o.descricao,unidade:(o.unidade.trim()||'UN').toUpperCase(),quantidade:q,valorUnit:vu,valorTotal:Math.round(q*vu*100)/100,local:o.local.trim(),codigo:o.codigo,observacao:o.observacao.trim()};
+ const btn=$('#btnSalvar');btn.disabled=true;btn.textContent='Salvando…';
+ try{
+  let ref,doc;
+  if(old){ref=S.db.doc('materiais/'+old.id);const base=Object.assign({},old);delete base.id;doc=Object.assign(base,data,{saidas:old.saidas.slice(),atualizadoPor:S.user.nome,atualizadoEm:now})}
+  else{ref=S.db.collection('materiais').doc();doc=Object.assign(data,{saidas:[],criadoPor:S.user.nome,criadoUser:S.user.id,criadoEm:now})}
+  const prevN=old?(+old.fotos||0):0;
+  const fotosChanged=!old||S._fotosLoaded&&(S.fotos.length!==prevN||S._fotosDirty);
+  if(fotosChanged){doc.fotos=S.fotos.length;doc.fotosV=now}else{doc.fotos=prevN}
+  await retry(()=>ref.set(doc));
+  if(fotosChanged){for(let i=0;i<S.fotos.length;i++)await retry(()=>S.db.doc('fotos/'+ref.id+'-'+i).set({img:S.fotos[i],mat:ref.id}));for(let i=S.fotos.length;i<prevN;i++)await S.db.doc('fotos/'+ref.id+'-'+i).delete().catch(()=>{})}
+  toast(old?'Alterações salvas.':'Entrada registrada: '+data.codigo);
+  const id=ref.id;S.form=null;S.fotos=[];S.editId=null;S._fotosLoaded=false;S._fotosDirty=false;
+  S.view='estoque';updateChrome();renderView();setTimeout(()=>openDetail(id),150);
+ }catch(e){wErr(e);if(btn.isConnected){btn.disabled=false;btn.textContent=old?'Salvar alterações':'Registrar entrada'}}
+};
+
+/* ============ SAÍDA ============ */
+function openSaida(id){
+ const m=getMat(id);if(!m)return;const s=sit(m);
+ openModal(`<form data-form="saida" data-id="${m.id}"><div class="mh"><div><h2>Registrar saída</h2><div class="muted" style="margin-top:3px">${esc(m.descricao)} · ${esc(m.codigo)}</div></div><button type="button" class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+ <div class="mb"><div class="note" style="margin-bottom:14px">Saldo disponível: <b>${fmtN(s.saldo)} ${esc(m.unidade||'')}</b>. Para baixar tudo, mantenha a quantidade total.</div>
+  <div class="grid g2">
+   <div class="f"><label>Data da saída <span class="req">*</span></label><input class="in" type="date" name="data" value="${today()}" required></div>
+   <div class="f"><label>Quantidade (${esc(m.unidade||'')}) <span class="req">*</span></label><input class="in" name="quantidade" inputmode="decimal" value="${String(s.saldo).replace('.',',')}" required></div>
+   <div class="f"><label>NF</label><input class="in" name="nf" autocomplete="off"></div>
+   <div class="f"><label>NF de devolução</label><input class="in" name="nfDevolucao" autocomplete="off"></div>
+   <div class="f"><label>RT/FWO</label><input class="in" name="rtFwo" autocomplete="off"></div>
+   <div class="f"><label>OP</label><input class="in" name="op" autocomplete="off"></div>
+  </div>
+  <div class="f" style="margin-top:14px"><label>Status <span class="req">*</span></label><div class="pill-tabs" id="stTabs">${STATUS_SAIDA.map(k=>`<button type="button" data-act="pickSt" data-s="${k}">${k}</button>`).join('')}</div><input type="hidden" name="status"></div>
+  <div class="f" style="margin-top:14px"><label>Observação</label><textarea class="in" name="observacao"></textarea></div>
+ </div>
+ <div class="mf"><button type="button" class="btn" data-act="back" data-id="${m.id}">Voltar</button><button class="btn o" type="submit">${ic('out',15)}Confirmar saída</button></div></form>`,'',{mat:m.id,form:1});
+}
+FORMS.saida=async f=>{
+ const m=getMat(f.dataset.id);if(!m)return;const s=sit(m);
+ const q=num(f.quantidade.value);
+ if(!f.status.value)return toast('Selecione o status: Aplicação, Embarque ou Transferência.','err');
+ if(q<=0)return toast('Quantidade inválida.','err');
+ if(q>s.saldo+1e-9)return toast(`Quantidade maior que o saldo (${fmtN(s.saldo)}).`,'err');
+ const now=Date.now();
+ const sd={id:now.toString(36)+Math.random().toString(36).slice(2,6),data:f.data.value,quantidade:q,nf:f.nf.value.trim(),nfDevolucao:f.nfDevolucao.value.trim(),rtFwo:f.rtFwo.value.trim(),status:f.status.value,op:f.op.value.trim(),observacao:f.observacao.value.trim(),usuario:S.user.nome,em:now};
+ const btn=f.querySelector('[type=submit]');btn.disabled=true;
+ try{await retry(()=>S.db.doc('materiais/'+m.id).update({saidas:[...m.saidas,sd],atualizadoPor:S.user.nome,atualizadoEm:now}));
+  toast(r3(s.saldo-q)<=0?'Saída registrada — material baixado.':'Saída parcial registrada.');closeModal();setTimeout(()=>openDetail(m.id),120)}
+ catch(e){wErr(e);btn.disabled=false}
+};
+
+/* ============ RELATÓRIOS ============ */
+function repData(){
+ const R=S.rep;const de=R.de||'0000',ate=R.ate||'9999';
+ const mats=S.mats.filter(m=>{const s=sit(m);if(R.plat&&m.plataforma!==R.plat)return false;
+  if(R.tipo==='estoque'&&s.saldo<=0)return false;if(R.tipo==='baixados'&&s.st!=='BAIXADO')return false;
+  if((R.de||R.ate)&&R.tipo!=='baixados'&&!(m.data>=de&&m.data<=ate))return false;
+  if((R.de||R.ate)&&R.tipo==='baixados'){const l=s.last;if(!l||!(l.data>=de&&l.data<=ate))return false}
+  return true}).sort((a,b)=>(a.data||'').localeCompare(b.data||''));
+ const sds=[];mats.forEach(m=>sit(m).sd.forEach(x=>{if(!(R.de||R.ate)||(x.data>=de&&x.data<=ate))sds.push({m,x})}));
+ sds.sort((a,b)=>(a.x.data||'').localeCompare(b.x.data||''));
+ return {mats,sds};
+}
+function vRelatorios(){
+ const R=S.rep;const plats=[...new Set(S.mats.map(m=>m.plataforma).filter(Boolean))].sort();
+ const {mats,sds}=repData();const val=mats.reduce((a,m)=>a+sit(m).saldo*(+m.valorUnit||0),0);
+ const tipos=[['todos','Todos os materiais'],['estoque','Em estoque'],['baixados','Baixados']];
+ return `<div class="ph"><div><h1>Relatórios em Excel</h1><p>Gere uma planilha com os materiais e o status atual de cada um.</p></div></div>
+ <div class="grid" style="grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)">
+  <div class="card pad"><h3>Filtros</h3>
+   <div class="f"><label>Tipo de relatório</label><div class="pill-tabs">${tipos.map(([k,t])=>`<button class="${R.tipo===k?'on':''}" data-act="repTipo" data-t="${k}">${t}</button>`).join('')}</div></div>
+   <div class="grid g3" style="margin-top:14px">
+    <div class="f"><label>Plataforma</label><select class="in" data-chg="repPlat"><option value="">Todas</option>${plats.map(p=>`<option ${R.plat===p?'selected':''}>${esc(p)}</option>`).join('')}</select></div>
+    <div class="f"><label>De</label><input type="date" class="in" value="${esc(R.de)}" data-chg="repDe"></div>
+    <div class="f"><label>Até</label><input type="date" class="in" value="${esc(R.ate)}" data-chg="repAte"></div>
+   </div>
+   <p class="faint" style="font-size:12px;margin:10px 0 0">${R.tipo==='baixados'?'O período considera a data da última saída.':'O período considera a data de entrada (e a data das saídas na aba de saídas).'}</p>
+  </div>
+  <div class="card pad"><h3>Prévia</h3>
+   <div class="dl" style="grid-template-columns:1fr 1fr"><div><small>Materiais</small><b style="font-size:20px">${mats.length}</b></div><div><small>Saídas</small><b style="font-size:20px">${sds.length}</b></div><div class="full"><small>Valor do saldo</small><b style="font-size:18px">${brl(val)}</b></div></div>
+   <p class="muted" style="font-size:12.5px">Abas: <b>Materiais</b> (todos os campos de entrada, saldo, situação e último status), <b>Saídas</b> (NF, NF de devolução, RT/FWO, status, OP) e <b>Resumo</b>.</p>
+   <button class="btn g" style="width:100%;margin-top:6px" data-act="excel" ${mats.length?'':'disabled'}>${ic('down',16)}Gerar Excel (.xlsx)</button>
+  </div>
+ </div>`;
+}
+async function gerarExcel(){
+ try{await loadLib('xlsx')}catch(e){return toast(e.message,'err')}
+ const X=window.XLSX;const {mats,sds}=repData();const R=S.rep;
+ const H1=['DATA ENTRADA','CÓDIGO','CONTRATO','NF','NM','RT','SS','REGISTRO','PLATAFORMA','DESCRIÇÃO','UNIDADE','QTD ENTRADA','QTD SAÍDA','SALDO','VALOR UNITÁRIO','VALOR TOTAL','VALOR DO SALDO','LOCAL DE ARMAZENAMENTO','SITUAÇÃO','STATUS ATUAL','DATA ÚLTIMA SAÍDA','OBSERVAÇÃO','CADASTRADO POR'];
+ const rows=mats.map(m=>{const s=sit(m);return [fmtD(m.data),m.codigo||'',m.contrato||'',m.nf||'',m.nm||'',m.rt||'',m.ss||'',m.registro||'',m.plataforma||'',m.descricao||'',m.unidade||'',+m.quantidade||0,s.out,s.saldo,+m.valorUnit||0,+m.valorTotal||0,Math.round(s.saldo*(+m.valorUnit||0)*100)/100,m.local||'',s.st,s.last?s.last.status:'EM ESTOQUE',s.last?fmtD(s.last.data):'',m.observacao||'',m.criadoPor||'']});
+ const ws1=X.utils.aoa_to_sheet([H1,...rows]);
+ fmtCols(X,ws1,rows.length,[14,15,16],[11,12,13]);
+ ws1['!cols']=[12,16,14,12,12,12,12,12,14,42,9,11,10,10,14,14,14,24,13,15,14,30,18].map(w=>({wch:w}));
+ ws1['!autofilter']={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:rows.length,c:H1.length-1}})};
+ const H2=['DATA SAÍDA','CÓDIGO','DESCRIÇÃO','PLATAFORMA','QUANTIDADE','UNIDADE','NF','NF DE DEVOLUÇÃO','RT/FWO','STATUS','OP','OBSERVAÇÃO','NF ENTRADA','REGISTRADO POR'];
+ const r2=sds.map(({m,x})=>[fmtD(x.data),m.codigo||'',m.descricao||'',m.plataforma||'',+x.quantidade||0,m.unidade||'',x.nf||'',x.nfDevolucao||'',x.rtFwo||'',x.status||'',x.op||'',x.observacao||'',m.nf||'',x.usuario||'']);
+ const ws2=X.utils.aoa_to_sheet([H2,...r2]);fmtCols(X,ws2,r2.length,[],[4]);
+ ws2['!cols']=[12,16,42,14,11,9,12,16,14,15,12,30,12,18].map(w=>({wch:w}));
+ ws2['!autofilter']={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:r2.length,c:H2.length-1}})};
+ const cnt=k=>mats.filter(m=>sit(m).st===k).length;
+ const stc=k=>sds.filter(o=>o.x.status===k).length;
+ const res=[[`${empresa().toUpperCase()} — RELATÓRIO DE MATERIAIS MPT`],[],['Gerado em',new Date().toLocaleString('pt-BR')],['Gerado por',S.user.nome],['Tipo',{todos:'Todos os materiais',estoque:'Em estoque',baixados:'Baixados'}[R.tipo]],['Plataforma',R.plat||'Todas'],['Período',(R.de||R.ate)?`${fmtD(R.de)||'início'} a ${fmtD(R.ate)||'hoje'}`:'Todo o histórico'],[],
+  ['Total de materiais',mats.length],['Em estoque',cnt('EM ESTOQUE')],['Saída parcial',cnt('PARCIAL')],['Baixados',cnt('BAIXADO')],[],
+  ['Saídas registradas',sds.length],['Aplicação',stc('APLICAÇÃO')],['Embarque',stc('EMBARQUE')],['Transferência',stc('TRANSFERÊNCIA')],[],
+  ['Valor total de entrada',mats.reduce((a,m)=>a+(+m.valorTotal||0),0)],['Valor do saldo em estoque',mats.reduce((a,m)=>a+sit(m).saldo*(+m.valorUnit||0),0)]];
+ const ws3=X.utils.aoa_to_sheet(res);['B19','B20'].forEach(c=>{if(ws3[c])ws3[c].z='"R$" #,##0.00'});ws3['!cols']=[{wch:28},{wch:30}];
+ const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws1,'Materiais');X.utils.book_append_sheet(wb,ws2,'Saídas');X.utils.book_append_sheet(wb,ws3,'Resumo');
+ const buf=X.write(wb,{bookType:'xlsx',type:'array'});
+ const nm=`Relatorio_Materiais_MPT_${{todos:'Geral',estoque:'Em_Estoque',baixados:'Baixados'}[R.tipo]}_${today()}.xlsx`;
+ await saveFile(nm,buf);
+}
+function fmtCols(X,ws,n,money,qty){for(let r=1;r<=n;r++){money.forEach(c=>{const a=X.utils.encode_cell({r,c});if(ws[a])ws[a].z='"R$" #,##0.00'});qty.forEach(c=>{const a=X.utils.encode_cell({r,c});if(ws[a])ws[a].z='#,##0.###'})}}
+function abToB64(buf){const bytes=new Uint8Array(buf);let out='';const ch=0x8000;for(let i=0;i<bytes.length;i+=ch)out+=String.fromCharCode.apply(null,bytes.subarray(i,i+ch));return btoa(out)}
+const isNative=()=>!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());
+async function saveFile(name,data){
+ if(isNative()){
+  try{
+   const P=window.Capacitor.Plugins,FS=P.Filesystem,SH=P.Share;
+   const b64=typeof data==='string'?btoa(unescape(encodeURIComponent(data))):abToB64(data instanceof ArrayBuffer?data:data.buffer);
+   let docOk=false;try{await FS.writeFile({path:'Controle MPT/'+name,data:b64,directory:'DOCUMENTS',recursive:true});docOk=true}catch(e){}
+   const r=await FS.writeFile({path:name,data:b64,directory:'CACHE'});
+   toast(docOk?'Arquivo salvo em Documentos › Controle MPT':'Arquivo gerado');
+   try{await SH.share({title:name,url:r.uri,dialogTitle:'Enviar ou salvar o arquivo'})}catch(e){}
+  }catch(e){toast('Não foi possível salvar o arquivo: '+(e.message||e),'err')}
+  return;
+ }
+ try{const blob=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},3000);toast('Download iniciado: '+name)}
+ catch(e){toast('Download indisponível neste dispositivo.','err')}
+}
+
+/* ============ ETIQUETAS ============ */
+function vEtiquetas(){
+ const q=S.lab.q.trim().toLowerCase();
+ const L=S.mats.filter(m=>!q||[m.codigo,m.descricao,m.nf,m.nm,m.plataforma,m.local].join(' ').toLowerCase().includes(q)).sort((a,b)=>(b.criadoEm||0)-(a.criadoEm||0));
+ const first=getMat([...S.sel][0])||L[0];
+ return `<div class="ph"><div><h1>Etiquetas</h1><p>Etiquetas com todas as informações de entrada, logo da empresa e QR code.</p></div></div>
+ <div class="grid" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)">
+  <div class="card pad"><div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">Selecione os materiais <small>${S.sel.size} selecionado(s)</small></h3>
+   <div class="row"><button class="btn sm" data-act="labAll">Selecionar visíveis</button>${S.sel.size?`<button class="btn sm" data-act="clearSel">Limpar</button>`:''}</div></div>
+   <div class="searchw" style="margin-bottom:10px">${ic('search',16)}<input class="in" placeholder="Buscar…" value="${esc(S.lab.q)}" data-inp="labq"></div>
+   <div id="labList" style="max-height:440px;overflow:auto;border:1px solid var(--line);border-radius:12px">${labListHTML(L)}</div></div>
+  <div><div class="card pad"><h3>Pré-visualização</h3>${first?labelPreview(first):'<div class="empty">Nenhum material.</div>'}
+   <div class="f" style="margin-top:16px"><label>Formato</label><div class="pill-tabs"><button class="${S.lab.fmt==='termica'?'on':''}" data-act="labFmt" data-f="termica">Etiqueta 100×70 mm</button><button class="${S.lab.fmt==='a4'?'on':''}" data-act="labFmt" data-f="a4">Folha A4 (8 por folha)</button></div></div>
+   ${cfg().logo?'':`<div class="note w" style="margin-top:12px">Nenhuma logo cadastrada — a etiqueta mostra o nome “${esc(empresa())}”. ${isAdmin()?'Envie a logo em <a href="#" data-act="go" data-v="config">Configurações</a>.':'Peça ao administrador para enviar a logo.'}</div>`}
+   <button class="btn p" style="width:100%;margin-top:14px" data-act="pdfLabels" ${S.sel.size?'':'disabled'}>${ic('down',16)}Gerar PDF (${S.sel.size})</button></div></div>
+ </div>`;
+}
+function labListHTML(L){return L.length?L.map(m=>{const s=sit(m);return `<label style="display:flex;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" style="width:17px;height:17px;accent-color:var(--pri)" data-chg="sel" data-id="${m.id}" ${S.sel.has(m.id)?'checked':''}><div style="flex:1;min-width:0"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(m.descricao)}</div><div class="muted" style="font-size:12px">${esc(m.codigo)} · ${fmtD(m.data)}${m.plataforma?' · '+esc(m.plataforma):''}</div></div><span class="chip ${sitCls(s.st)}">${s.st}</span></label>`}).join(''):'<div class="empty">Nenhum material.</div>'}
+function labelPreview(m){const c=cfg();if(!window.qrcode)loadLib('qr').then(()=>{if(S.view==='etiquetas')renderView()}).catch(()=>{});
+ const F=(l,v,w)=>`<div${w?' class="w"':''}><small>${l}</small><b>${esc(v||'-')}</b></div>`;
+ return `<div class="lbl"><div class="lh">${c.logo?`<img src="${esc(c.logo)}">`:`<b style="font-size:13px;letter-spacing:.05em">${esc(empresa().toUpperCase())}</b>`}<div class="t">IDENTIFICAÇÃO DE MATERIAL<small>Controle de Materiais MPT</small></div></div>
+ <div class="lb2"><div class="lf">${F('Descrição',m.descricao,1)}${F('Data',fmtD(m.data))}${F('Contrato',m.contrato)}${F('NF',m.nf)}${F('NM',m.nm)}${F('RT',m.rt)}${F('SS',m.ss)}${F('Registro',m.registro)}${F('Plataforma',m.plataforma)}${F('Qtd / Un',fmtN(m.quantidade)+' '+(m.unidade||''))}${F('Local',m.local)}${F('Valor unit.',brl(m.valorUnit))}${F('Valor total',brl(m.valorTotal))}${m.observacao?F('Obs.',m.observacao,1):''}</div>
+ <div class="lq">${qrSVG(qrText(m))}<div style="margin-top:3px;word-break:break-all">${esc(m.codigo)}</div></div></div></div>`}
+async function gerarPDF(ids){
+ const list=ids.map(getMat).filter(Boolean);if(!list.length)return toast('Selecione ao menos um material.','err');
+ toast('Gerando etiquetas…');
+ try{await Promise.all([loadLib('jspdf'),loadLib('qr')])}catch(e){return toast(e.message,'err')}
+ const {jsPDF}=window.jspdf;const fmt=S.lab.fmt;
+ const doc=fmt==='a4'?new jsPDF({unit:'mm',format:'a4',orientation:'portrait'}):new jsPDF({unit:'mm',format:[100,70],orientation:'landscape'});
+ let logo=null;const c=cfg();if(c.logo){logo={src:c.logo,w:c.logoW||300,h:c.logoH||100,t:c.logo.startsWith('data:image/png')?'PNG':'JPEG'}}
+ list.forEach((m,i)=>{
+  if(fmt==='a4'){const k=i%8;if(i&&k===0)doc.addPage();const col=k%2,row=Math.floor(k/2);drawLabel(doc,m,3+col*104,5.5+row*72,logo)}
+  else{if(i)doc.addPage([100,70],'landscape');drawLabel(doc,m,0,0,logo)}
+ });
+ const buf=doc.output('arraybuffer');
+ await saveFile(list.length===1?`Etiqueta_${(list[0].codigo||'material').replace(/[^\w-]/g,'_')}.pdf`:`Etiquetas_${list.length}_${today()}.pdf`,buf);
+}
+function drawLabel(doc,m,X,Y,logo){
+ const W=100,H=70,P=3.5;
+ doc.setDrawColor(30);doc.setLineWidth(0.35);doc.roundedRect(X+0.6,Y+0.6,W-1.2,H-1.2,2.2,2.2);
+ const hh=12.5;
+ if(logo){const mw=34,mh=8.5;const r=Math.min(mw/logo.w,mh/logo.h);const w=logo.w*r,h=logo.h*r;try{doc.addImage(logo.src,logo.t,X+P,Y+2+(mh-h)/2,w,h)}catch(e){doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text(empresa().toUpperCase(),X+P,Y+8.5)}}
+ else{doc.setFont('helvetica','bold');doc.setFontSize(12.5);doc.setTextColor(0);doc.text(empresa().toUpperCase(),X+P,Y+8.6)}
+ doc.setTextColor(0);doc.setFont('helvetica','bold');doc.setFontSize(7.6);doc.text('IDENTIFICAÇÃO DE MATERIAL',X+W-P,Y+6,{align:'right'});
+ doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(90);doc.text('Controle de Materiais MPT',X+W-P,Y+9.3,{align:'right'});
+ doc.setDrawColor(30);doc.setLineWidth(0.25);doc.line(X+1.2,Y+hh,X+W-1.2,Y+hh);
+ const qs=26.5,qx=X+W-P-qs,qy=Y+hh+2.2;drawQR(doc,qrText(m),qx,qy,qs);
+ doc.setTextColor(0);doc.setFont('helvetica','bold');doc.setFontSize(7.6);
+ const cl=doc.splitTextToSize(String(m.codigo||''),qs+3).slice(0,2);doc.text(cl,qx+qs/2,qy+qs+3.6,{align:'center'});
+ doc.setFont('helvetica','normal');doc.setFontSize(5.4);doc.setTextColor(90);
+ doc.text(`Entrada ${fmtD(m.data)}`,qx+qs/2,qy+qs+3.6+cl.length*2.9+0.6,{align:'center'});
+ const fx=X+P,fw=qx-3-fx,cw=fw/2;let y=Y+hh+1.6;
+ const fld=(lab,val,x,w,lines)=>{doc.setFont('helvetica','normal');doc.setFontSize(5);doc.setTextColor(105);doc.text(lab.toUpperCase(),x,y+1.9);
+  doc.setFont('helvetica','bold');doc.setFontSize(7.2);doc.setTextColor(0);let t=doc.splitTextToSize(String(val==null||val===''?'-':val),w-1);if(t.length>lines){t=t.slice(0,lines);t[lines-1]=t[lines-1].replace(/.{0,2}$/,'…')}doc.text(t,x,y+4.7);return t.length};
+ const n=fld('Descrição',m.descricao,fx,fw,2);y+=4.6+n*2.75;
+ const pairs=[['Data',fmtD(m.data),'Contrato',m.contrato],['NF',m.nf,'NM',m.nm],['RT',m.rt,'SS',m.ss],['Registro',m.registro,'Plataforma',m.plataforma],['Qtd / Unidade',fmtN(m.quantidade)+' '+(m.unidade||''),'Local',m.local],['Valor unitário',brl(m.valorUnit),'Valor total',brl(m.valorTotal)]];
+ pairs.forEach(p=>{fld(p[0],p[1],fx,cw,1);fld(p[2],p[3],fx+cw,cw,1);y+=5.75});
+ if(m.observacao){const rest=Y+H-2.2-(y+4.7);fld('Observação',m.observacao,fx,W-2*P,rest>2.6?2:1)}
+}
+function drawQR(doc,text,x,y,size){const q=makeQR(text),n=q.getModuleCount(),s=size/n;doc.setFillColor(0,0,0);
+ for(let r=0;r<n;r++){let c=0;while(c<n){if(q.isDark(r,c)){const st=c;while(c<n&&q.isDark(r,c))c++;doc.rect(x+st*s,y+r*s,(c-st)*s+0.02,s+0.02,'F')}else c++}}}
+
+/* ============ LEITURA DE QR ============ */
+async function onQRFile(file){
+ if(!file)return;toast('Lendo QR code…');
+ try{await loadLib('jsqr')}catch(e){return toast(e.message,'err')}
+ const url=URL.createObjectURL(file);const img=new Image();
+ img.onload=()=>{let w=img.naturalWidth,h=img.naturalHeight;const r=Math.min(1,1400/Math.max(w,h));w=Math.round(w*r);h=Math.round(h*r);
+  const c=document.createElement('canvas');c.width=w;c.height=h;const cx=c.getContext('2d');cx.drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+  const res=window.jsQR(cx.getImageData(0,0,w,h).data,w,h,{inversionAttempts:'attemptBoth'});
+  if(!res||!res.data)return toast('QR code não encontrado na imagem. Tente uma foto mais próxima.','err');
+  const t=res.data;const mi=t.match(/ID:([\w-]+)/);const mc=t.match(/COD:\s*([^\n]+)/);
+  let m=mi&&getMat(mi[1]);if(!m&&mc)m=S.mats.find(x=>x.codigo===mc[1].trim());if(!m)m=S.mats.find(x=>x.codigo===t.trim());
+  if(m){if(S.view!=='estoque')go('estoque');openDetail(m.id)}else{S.q=(mc?mc[1]:t).trim().slice(0,60);go('estoque');toast('Material não encontrado pelo QR — mostrando busca.','err')}};
+ img.onerror=()=>toast('Imagem inválida.','err');img.src=url;
+}
+$('#qrFile').addEventListener('change',e=>{onQRFile(e.target.files[0]);e.target.value=''});
+
+/* ============ USUÁRIOS (admin) ============ */
+function vUsuarios(){
+ if(!isAdmin())return '';
+ const L=S.users.slice().sort((a,b)=>(a.perfil==='admin'?-1:1)-(b.perfil==='admin'?-1:1)||String(a.nome).localeCompare(b.nome));
+ return `<div class="ph"><div><h1>Usuários</h1><p>${L.length} cadastrado(s). Apenas um usuário é administrador.</p></div><button class="btn p" data-act="newUser">${ic('entrada',16)}Novo usuário</button></div>
+ <div class="card tw"><table class="tbl rsp"><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Situação</th><th>Criado em</th><th></th></tr></thead><tbody>
+ ${L.map(u=>`<tr><td class="desc"><div class="row" style="gap:10px;flex-wrap:nowrap"><div class="av">${esc(ini(u.nome))}</div><div>${esc(u.nome)}${u.id===S.user.id?' <span class="faint">(você)</span>':''}</div></div></td>
+  <td data-l="E-mail">${esc(u.email||'')}</td><td data-l="Perfil"><span class="chip ${u.perfil==='admin'?'adm':'bx'}">${u.perfil==='admin'?'Administrador':'Usuário'}</span></td>
+  <td data-l="Situação"><span class="chip ${u.ativo===false?'off':'est'}">${u.ativo===false?'Desativado':'Ativo'}</span></td><td data-l="Criado em" class="hm">${fmtDT(u.criadoEm)}</td>
+  <td style="text-align:right;white-space:nowrap">${u.id===S.user.id?`<button class="btn sm" data-act="myPw">${ic('key',14)}Minha senha</button>`:`<button class="btn sm" data-act="resetPw" data-u="${u.id}" title="Enviar e-mail para redefinir a senha">${ic('key',14)}Senha</button> <button class="btn sm" data-act="toggleUser" data-u="${u.id}">${u.ativo===false?'Ativar':'Desativar'}</button> <button class="btn sm" data-act="makeAdmin" data-u="${u.id}" title="Transferir administração">Tornar admin</button> <button class="btn sm d" data-act="delUser" data-u="${u.id}">${ic('trash',14)}</button>`}</td></tr>`).join('')}
+ </tbody></table></div>
+ <div class="note" style="margin-top:14px">Cada pessoa entra com o próprio <b>e-mail</b> e senha. Use e-mails reais: é para eles que o sistema envia o link de redefinição de senha.</div>`;
+}
+function newUserModal(){openModal(`<form data-form="newUser"><div class="mh"><h2>Novo usuário</h2><button type="button" class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+ <div class="mb grid"><div class="f"><label>Nome completo <span class="req">*</span></label><input class="in" name="nome" required></div>
+ <div class="f"><label>E-mail (login) <span class="req">*</span></label><input class="in" type="email" name="email" required autocapitalize="none" placeholder="nome@empresa.com"></div>
+ <div class="grid g2"><div class="f"><label>Senha inicial <span class="req">*</span></label><input class="in" type="password" name="senha" minlength="6" required autocomplete="new-password"></div><div class="f"><label>Confirmar <span class="req">*</span></label><input class="in" type="password" name="senha2" minlength="6" required autocomplete="new-password"></div></div>
+ <div class="faint" style="font-size:12px">Perfil: Usuário (registra entradas, saídas, relatórios e etiquetas). A pessoa pode trocar a senha depois em "Minha senha".</div></div>
+ <div class="mf"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn p" type="submit">Cadastrar</button></div></form>`,'',{form:1})}
+let secAppRef=null;
+function secAuth(){if(!secAppRef){secAppRef=firebase.initializeApp(FB_CONFIG,'cadastro');try{secAppRef.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)}catch(e){}}return secAppRef.auth()}
+FORMS.newUser=async f=>{
+ const nome=f.nome.value.trim(),email=f.email.value.trim().toLowerCase();
+ if(f.senha.value!==f.senha2.value)return toast('As senhas não conferem.','err');
+ if(S.users.find(x=>(x.email||'').toLowerCase()===email))return toast('Já existe um usuário com este e-mail.','err');
+ const btn=f.querySelector('button[type=submit]');btn.disabled=true;
+ try{
+  const a=secAuth();const cred=await a.createUserWithEmailAndPassword(email,f.senha.value);const uid=cred.user.uid;await a.signOut();
+  await retry(()=>S.db.doc('usuarios/'+uid).set({nome,email,perfil:'usuario',ativo:true,criadoEm:Date.now(),criadoPor:S.user.nome}));
+  closeModal();toast('Usuário cadastrado: '+email);
+ }catch(e){
+  if(e.code==='auth/email-already-in-use')toast('Este e-mail já tem login no Firebase. Se o usuário foi excluído, remova-o também em Firebase → Authentication e cadastre de novo.','err');
+  else if(e.code&&e.code.startsWith('auth/'))toast(authMsg(e),'err');else wErr(e);
+  if(btn.isConnected)btn.disabled=false;
+ }
+};
+function pwModal(){openModal(`<form data-form="pw"><div class="mh"><h2>Alterar minha senha</h2><button type="button" class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+ <div class="mb grid"><div class="f"><label>Senha atual</label><input class="in" type="password" name="atual" required autocomplete="current-password"></div>
+ <div class="grid g2"><div class="f"><label>Nova senha</label><input class="in" type="password" name="senha" minlength="6" required autocomplete="new-password"></div><div class="f"><label>Confirmar</label><input class="in" type="password" name="senha2" minlength="6" required autocomplete="new-password"></div></div></div>
+ <div class="mf"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn p" type="submit">Salvar</button></div></form>`,'',{form:1})}
+FORMS.pw=async f=>{
+ if(f.senha.value!==f.senha2.value)return toast('As senhas não conferem.','err');
+ const u=S.auth.currentUser;
+ try{await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,f.atual.value));await u.updatePassword(f.senha.value);closeModal();toast('Senha atualizada.')}
+ catch(e){toast(e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'Senha atual incorreta.':authMsg(e),'err')}
+};
+
+/* ============ CONFIG (admin) ============ */
+function vConfig(){
+ if(!isAdmin())return '';const c=cfg();
+ return `<div class="ph"><div><h1>Configurações</h1><p>Identidade usada no app e nas etiquetas.</p></div></div>
+ <div class="grid g2" style="max-width:980px">
+  <div class="card pad"><h3>Logo da empresa</h3>
+   <div style="border:1px dashed var(--line2);border-radius:12px;min-height:110px;display:grid;place-items:center;background:var(--surface2);padding:14px">${c.logo?`<img src="${esc(c.logo)}" style="max-width:100%;max-height:90px;object-fit:contain">`:`<span class="muted">Nenhuma logo enviada</span>`}</div>
+   <p class="faint" style="font-size:12px">Use PNG com fundo transparente ou branco. A imagem é ajustada automaticamente.</p>
+   <div class="row"><label class="btn p" for="logoIn">${ic('down',15)}Enviar logo</label>${c.logo?`<button class="btn d" data-act="rmLogo">Remover</button>`:''}</div>
+   <input type="file" id="logoIn" accept="image/png,image/jpeg,image/webp" hidden data-chg="logo"></div>
+  <div class="card pad"><h3>Dados gerais</h3><form data-form="cfg" class="grid">
+   <div class="f"><label>Nome da empresa</label><input class="in" name="empresa" value="${esc(c.empresa||'Actemium')}"></div>
+   <div class="f"><label>Prefixo do código automático</label><input class="in" name="prefixo" value="${esc(c.prefixo||'EST')}" maxlength="8"></div>
+   <div class="row" style="justify-content:flex-end"><button class="btn p" type="submit">Salvar</button></div></form></div>
+  <div class="card pad"><h3>Backup dos dados</h3><p class="muted" style="font-size:13px;margin-top:0">Gera um arquivo .json com todos os materiais, saídas, fotos e a logo. Use para guardar uma cópia de segurança ou trazer os dados da versão anterior.</p>
+   <div class="row"><button class="btn g" data-act="exportBk">${ic('down',15)}Exportar backup (.json)</button><label class="btn" for="bkIn">${ic('undo',15)}Importar backup</label></div>
+   <input type="file" id="bkIn" accept=".json,application/json" hidden data-chg="importBk">
+   <p class="faint" style="font-size:12px">Importar grava os materiais do arquivo no banco (registros com o mesmo código interno são substituídos). Usuários não são importados.</p></div>
+ </div>`;
+}
+async function saveCfg(patch){try{const cur=Object.assign({},cfg(),patch);await retry(()=>S.db.doc('config/geral').set(cur));toast('Configurações salvas.')}catch(e){wErr(e)}}
+FORMS.cfg=f=>saveCfg({empresa:f.empresa.value.trim()||'Actemium',prefixo:(f.prefixo.value.trim()||'EST').toUpperCase()});
+async function onLogo(file){
+ if(!file)return;const url=URL.createObjectURL(file);const img=new Image();
+ img.onload=async()=>{const r=Math.min(1,700/img.naturalWidth,240/img.naturalHeight);const c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*r);c.height=Math.round(img.naturalHeight*r);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+  let d=c.toDataURL('image/png');if(d.length>200000){const c2=document.createElement('canvas');c2.width=c.width;c2.height=c.height;const x=c2.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c2.width,c2.height);x.drawImage(c,0,0);d=c2.toDataURL('image/jpeg',0.9)}
+  await saveCfg({logo:d,logoW:c.width,logoH:c.height})};
+ img.onerror=()=>toast('Imagem inválida.','err');img.src=url;
+}
+
+async function exportBackup(){
+ toast('Preparando backup…');const fotos=[];
+ for(const m of S.mats){for(let i=0;i<(+m.fotos||0);i++){try{const s=await S.db.doc('fotos/'+m.id+'-'+i).get();if(s.exists)fotos.push(Object.assign({id:s.id},s.data()))}catch(e){}}}
+ const data={app:'controle-mpt',versao:1,exportadoEm:new Date().toISOString(),materiais:S.mats.map(m=>Object.assign({},m)),fotos,config:Object.assign({},cfg())};
+ await saveFile('backup-controle-mpt-'+today()+'.json',JSON.stringify(data));
+}
+async function importBackup(file){
+ if(!file)return;let data;
+ try{data=JSON.parse(await file.text())}catch(e){return toast('Arquivo inválido.','err')}
+ if(!data||data.app!=='controle-mpt'||!Array.isArray(data.materiais))return toast('Este arquivo não é um backup do Controle MPT.','err');
+ const nf=(data.fotos||[]).length;
+ if(!(await confirmBox(`Importar ${data.materiais.length} materiais e ${nf} fotos do backup de ${fmtDT(Date.parse(data.exportadoEm))}?`,'Importar')))return;
+ openModal(`<div class="mb" style="padding:26px;text-align:center"><div class="spin"></div><b id="impTxt">Importando…</b></div>`,'',{form:1});
+ const set=t=>{const e=$('#impTxt');if(e)e.textContent=t};
+ try{
+  let i=0;for(const m of data.materiais){const o=Object.assign({},m);const id=o.id;delete o.id;if(!id)continue;await S.db.doc('materiais/'+id).set(o);i++;set(`Materiais: ${i}/${data.materiais.length}`)}
+  let k=0;for(const fo of (data.fotos||[])){const o=Object.assign({},fo);const id=o.id;delete o.id;if(!id)continue;await S.db.doc('fotos/'+id).set(o);k++;set(`Fotos: ${k}/${nf}`)}
+  if(data.config&&Object.keys(data.config).length){const c=Object.assign({},data.config,cfg().logo&&!data.config.logo?{logo:cfg().logo,logoW:cfg().logoW,logoH:cfg().logoH}:{});await S.db.doc('config/geral').set(c)}
+  closeModal();toast(`Backup importado: ${i} materiais, ${k} fotos.`);
+ }catch(e){closeModal();wErr(e)}
+}
+/* ============ modal / confirm ============ */
+function openModal(html,cls,data){const r=$('#modal-root');r.innerHTML=`<div class="ov"><div class="md ${cls||''}">${html}</div></div>`;const md=r.querySelector('.md');if(data){if(data.mat)md.dataset.mat=data.mat;if(data.form)md.dataset.form=1}}
+function closeModal(){$('#modal-root').innerHTML=''}
+function confirmBox(msg,okTxt='Confirmar',danger){return new Promise(res=>{const r=document.createElement('div');r.className='ov';r.style.zIndex=60;
+ r.innerHTML=`<div class="md" style="max-width:420px"><div class="mb" style="padding-top:22px;font-size:14.5px;line-height:1.5">${esc(msg)}</div><div class="mf"><button class="btn" data-x="0">Cancelar</button><button class="btn ${danger?'d':'p'}" data-x="1">${esc(okTxt)}</button></div></div>`;
+ r.addEventListener('click',e=>{const b=e.target.closest('[data-x]');if(b||e.target===r){r.remove();res(!!(b&&b.dataset.x==='1'))}});document.body.appendChild(r)})}
+$('#modal-root').addEventListener('click',e=>{if(e.target.classList.contains('ov'))closeModal()});
+
+/* ============ ações ============ */
+const ACT={
+ go:b=>go(b.dataset.v),logout:()=>logout(),close:()=>closeModal(),
+ more:()=>openModal(`<div class="mh"><div class="row" style="gap:10px"><div class="av">${esc(ini(S.user.nome))}</div><div><b>${esc(S.user.nome)}</b><div class="muted" style="font-size:12px">${isAdmin()?'Administrador':'Usuário'}</div></div></div><button class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+  <div class="mb" style="padding-top:4px">${navItems().map(n=>`<button class="lnk" data-act="go" data-v="${n.v}">${ic(n.v)}${n.t}</button>`).join('')}<button class="lnk" data-act="scanQR">${ic('qr')}Ler QR code</button><button class="lnk" data-act="myPw">${ic('key')}Alterar minha senha</button><button class="lnk" data-act="logout" style="color:var(--red)">${ic('logout')}Sair</button></div>`,'sheet'),
+ menuUser:()=>pwModal(),myPw:()=>pwModal(),forgot:()=>forgotModal(),
+ detail:(b,e)=>{if(e.target.closest('[data-stop]'))return;openDetail(b.dataset.id)},
+ saida:b=>openSaida(b.dataset.id),back:b=>openDetail(b.dataset.id),
+ pickSt:b=>{const f=b.closest('form');f.status.value=b.dataset.s;f.querySelectorAll('#stTabs button').forEach(x=>x.classList.toggle('on',x===b))},
+ editMat:b=>{closeModal();S.editId=b.dataset.id;S.form=null;S.fotos=[];S._fotosLoaded=false;S._fotosDirty=false;S.view='entrada';updateChrome();renderView();window.scrollTo(0,0)},
+ cancelEdit:()=>{const id=S.editId;S.editId=null;S.form=null;S.fotos=[];S._fotosLoaded=false;S.view='estoque';updateChrome();renderView();if(id)openDetail(id)},
+ resetEntrada:()=>{S.form=null;S.fotos=[];renderView()},
+ rmFoto:b=>{S.fotos.splice(+b.dataset.i,1);S._fotosDirty=true;renderFotos()},
+ zoom:b=>{const u=(S._zoom||[])[+b.dataset.i];if(u)zoomImg(u)},zoomForm:b=>zoomImg(S.fotos[+b.dataset.i]),
+ delMat:async b=>{const m=getMat(b.dataset.id);if(!m)return;if(!(await confirmBox(`Excluir definitivamente "${m.descricao}" (${m.codigo}) e todo o histórico de saídas?`,'Excluir',1)))return;
+  try{await retry(()=>S.db.doc('materiais/'+m.id).delete());for(let i=0;i<(+m.fotos||0);i++)await S.db.doc('fotos/'+m.id+'-'+i).delete().catch(()=>{});S.sel.delete(m.id);closeModal();toast('Material excluído.')}catch(e){wErr(e)}},
+ estornar:async b=>{const m=getMat(b.dataset.id);const i=+b.dataset.i;if(!m||!m.saidas[i])return;if(!(await confirmBox(`Estornar a saída de ${fmtN(m.saidas[i].quantidade)} ${m.unidade||''} (${m.saidas[i].status})? O saldo volta ao estoque.`,'Estornar',1)))return;
+  const sd=m.saidas.filter((_,k)=>k!==i);try{await retry(()=>S.db.doc('materiais/'+m.id).update({saidas:sd,atualizadoPor:S.user.nome,atualizadoEm:Date.now()}));toast('Saída estornada.')}catch(e){wErr(e)}},
+ labelOne:b=>{gerarPDF([b.dataset.id])},
+ goLabels:()=>go('etiquetas'),clearSel:()=>{S.sel.clear();S.view==='estoque'?renderList():renderView()},
+ labAll:()=>{const q=S.lab.q.trim().toLowerCase();S.mats.forEach(m=>{if(!q||[m.codigo,m.descricao,m.nf,m.nm,m.plataforma,m.local].join(' ').toLowerCase().includes(q))S.sel.add(m.id)});renderView()},
+ labFmt:b=>{S.lab.fmt=b.dataset.f;renderView()},pdfLabels:()=>gerarPDF([...S.sel]),
+ clearF:()=>{S.q='';S.fSit='';S.fPlat='';renderView()},
+ scanQR:()=>{closeModal();$('#qrFile').click()},
+ dashP:b=>{S.dash.p=b.dataset.p;renderView()},dashClr:()=>{S.dash.ct='';S.dash.plat='';renderView()},
+ repTipo:b=>{S.rep.tipo=b.dataset.t;renderView()},excel:()=>gerarExcel(),
+ newUser:()=>newUserModal(),
+ resetPw:async b=>{const u=S.users.find(x=>x.id===b.dataset.u);if(!u||!u.email)return;if(!(await confirmBox(`Enviar para ${u.email} um link para criar uma nova senha?`,'Enviar')))return;try{await S.auth.sendPasswordResetEmail(u.email);toast('Link de redefinição enviado para '+u.email)}catch(e){toast(authMsg(e),'err')}},
+ toggleUser:async b=>{const u=S.users.find(x=>x.id===b.dataset.u);if(!u)return;try{await retry(()=>S.db.doc('usuarios/'+u.id).update({ativo:u.ativo===false}));toast(u.ativo===false?'Usuário ativado.':'Usuário desativado.')}catch(e){wErr(e)}},
+ makeAdmin:async b=>{const u=S.users.find(x=>x.id===b.dataset.u);if(!u)return;if(u.ativo===false)return toast('Ative o usuário antes.','err');
+  if(!(await confirmBox(`Transferir a administração para ${u.nome}? Só pode existir um administrador — você passará a ser usuário comum.`,'Transferir',1)))return;
+  try{const bt=S.db.batch();bt.update(S.db.doc('usuarios/'+u.id),{perfil:'admin'});bt.update(S.db.doc('usuarios/'+S.user.id),{perfil:'usuario'});bt.set(S.db.doc('meta/admin'),{uid:u.id,criadoEm:Date.now()});await bt.commit();S.user=Object.assign({},S.user,{perfil:'usuario'});toast('Administração transferida.');render();go('dashboard')}catch(e){wErr(e)}},
+ delUser:async b=>{const u=S.users.find(x=>x.id===b.dataset.u);if(!u)return;if(!(await confirmBox(`Excluir o usuário ${u.nome} (${u.email||''})? Ele perde o acesso. Os registros feitos por ele são mantidos.`,'Excluir',1)))return;try{await retry(()=>S.db.doc('usuarios/'+u.id).delete());toast('Usuário excluído.')}catch(e){wErr(e)}},
+ exportBk:()=>exportBackup().catch(e=>toast('Erro no backup: '+(e.message||e),'err')),
+ rmLogo:async()=>{if(await confirmBox('Remover a logo?','Remover',1)){const c=Object.assign({},cfg());delete c.logo;delete c.logoW;delete c.logoH;try{await retry(()=>S.db.doc('config/geral').set(c));toast('Logo removida.')}catch(e){wErr(e)}}}
+};
+function zoomImg(u){const r=document.createElement('div');r.className='ov';r.style.zIndex=70;r.style.alignItems='center';r.innerHTML=`<img class="imgview" src="${u}">`;r.addEventListener('click',()=>r.remove());document.body.appendChild(r)}
+const CHG={
+ dashPlat:e=>{S.dash.plat=e.value;renderView()},dashCt:e=>{S.dash.ct=e.value;renderView()},dashDe:e=>{S.dash.de=e.value;renderView()},dashAte:e=>{S.dash.ate=e.value;renderView()},
+ fSit:e=>{S.fSit=e.value;renderList()},fPlat:e=>{S.fPlat=e.value;renderList()},
+ sel:e=>{e.checked?S.sel.add(e.dataset.id):S.sel.delete(e.dataset.id);if(S.view==='estoque')renderList();else renderView()},
+ selAll:e=>{const L=filtered();L.forEach(m=>e.checked?S.sel.add(m.id):S.sel.delete(m.id));renderList()},
+ repPlat:e=>{S.rep.plat=e.value;renderView()},repDe:e=>{S.rep.de=e.value;renderView()},repAte:e=>{S.rep.ate=e.value;renderView()},
+ fotos:async e=>{const all=[...e.files];const files=all.slice(0,4-S.fotos.length);e.value='';if(all.length>files.length)toast('Máximo de 4 fotos por material.','err');if(files.length)toast('Processando foto(s)…');for(const f of files){try{S.fotos.push(await compressImg(f));S._fotosDirty=true;if(!S._fotosLoading)S._fotosLoaded=true}catch(x){toast('Não foi possível ler a imagem.','err')}}renderFotos()},
+ logo:e=>{onLogo(e.files[0]);e.value=''},
+ importBk:e=>{const f=e.files[0];e.value='';importBackup(f)}
+};
+const INP={
+ q:e=>{S.q=e.value;renderList()},
+ labq:e=>{S.lab.q=e.value;const q=e.value.trim().toLowerCase();const L=S.mats.filter(m=>!q||[m.codigo,m.descricao,m.nf,m.nm,m.plataforma,m.local].join(' ').toLowerCase().includes(q)).sort((a,b)=>(b.criadoEm||0)-(a.criadoEm||0));const l=$('#labList');if(l)l.innerHTML=labListHTML(L)}
+};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const f=ACT[b.dataset.act];if(!f)return;if(b.tagName==='A')e.preventDefault();f(b,e)});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset&&t.dataset.chg&&CHG[t.dataset.chg]){e.stopPropagation();CHG[t.dataset.chg](t)}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.inp&&INP[t.dataset.inp])INP[t.dataset.inp](t)});
+document.addEventListener('submit',e=>{const f=e.target;if(f.dataset&&f.dataset.form&&FORMS[f.dataset.form]){e.preventDefault();Promise.resolve(FORMS[f.dataset.form](f)).catch(err=>toast('Erro: '+(err&&err.message||err),'err'))}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+// checkbox dentro de linha clicável não abre detalhe
+document.addEventListener('click',e=>{if(e.target.matches('td.ck input,td.ck'))e.stopPropagation()},true);
+
+init();
+</script>
+</body>
+</html>

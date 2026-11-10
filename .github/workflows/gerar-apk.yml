@@ -1,0 +1,63 @@
+name: Gerar APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Copiar bibliotecas para o app
+        run: node scripts/copy-libs.js
+
+      - name: Criar projeto Android
+        run: npx cap add android
+
+      - name: Ícones, permissões e assinatura
+        run: node scripts/android-setup.js
+
+      - name: Sincronizar app web com o Android
+        run: npx cap sync android
+
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Renomear APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Controle-MPT.apk
+
+      - name: Guardar APK (aba Actions)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Controle-MPT-apk
+          path: Controle-MPT.apk
+
+      - name: Publicar APK (aba Releases)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: Controle MPT - versão ${{ github.run_number }}
+          body: Baixe o arquivo Controle-MPT.apk abaixo e instale no celular Android.
+          files: Controle-MPT.apk
+          make_latest: true

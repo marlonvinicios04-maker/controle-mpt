@@ -1,0 +1,8 @@
+{
+  "appId": "com.actemium.controlempt",
+  "appName": "Controle MPT",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  }
+}

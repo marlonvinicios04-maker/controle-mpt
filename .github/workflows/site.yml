@@ -4,6 +4,8 @@ name: Publicar versão web (computador)
 # Para funcionar, ative em Settings > Pages > Source: "GitHub Actions".
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

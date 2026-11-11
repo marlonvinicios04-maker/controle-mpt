@@ -78,12 +78,14 @@ textarea.in{min-height:76px;resize:vertical}
 .chip.ap{background:var(--priSoft);color:var(--pri)}
 .chip.em{background:var(--violetSoft);color:var(--violet)}
 .chip.tr{background:var(--outSoft);color:var(--out)}
+.chip.dv{background:#e3f4f1;color:#0f766e}
+.chip.rc{background:var(--redSoft);color:var(--red)}
 .chip.adm{background:var(--priSoft);color:var(--pri)}
 .chip.off{background:var(--redSoft);color:var(--red)}
 .muted{color:var(--muted)}.faint{color:var(--faint)}
 .mono{font-variant-numeric:tabular-nums}
 /* kpis */
-.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:14px}
 .kpi{padding:16px 16px 14px;position:relative;overflow:hidden}
 .kpi .lb{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:7px}
 .kpi .lb i{width:8px;height:8px;border-radius:50%;display:inline-block}
@@ -117,7 +119,7 @@ svg.chart text{font-family:Inter,sans-serif;font-size:11px;fill:var(--muted)}
 .act{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:flex-start}
 .act:last-child{border-bottom:0}
 .act .ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none}
-.act .ic.in{background:var(--inSoft);color:var(--in)}.act .ic.out{background:var(--outSoft);color:var(--out)}
+.act .ic.rec{background:var(--redSoft);color:var(--red)}.act .ic.in{background:var(--inSoft);color:var(--in)}.act .ic.out{background:var(--outSoft);color:var(--out)}
 .act .tx{flex:1;min-width:0}
 .act .tx b{font-weight:600}
 .act .tx div{font-size:12.5px;color:var(--muted);margin-top:2px}
@@ -245,7 +247,7 @@ svg.chart text{font-family:Inter,sans-serif;font-size:11px;fill:var(--muted)}
 .dleg{flex:1;min-width:150px;display:flex;flex-direction:column;gap:10px}
 .dleg div{display:grid;grid-template-columns:12px 1fr auto 42px;gap:9px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}
 .dleg i{width:10px;height:10px;border-radius:3px}.dleg span{font-weight:500}.dleg b{font-variant-numeric:tabular-nums}.dleg em{font-style:normal;color:var(--muted);font-size:12px;text-align:right}
-.sttiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sttiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .stt{border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
 .stt span{font-size:11px;font-weight:700;letter-spacing:.04em}.stt b{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
 .stt .sbar{height:6px;border-radius:4px;background:rgba(255,255,255,.75);overflow:hidden;margin-top:4px}.stt .sbar i{display:block;height:100%;border-radius:4px}
@@ -254,7 +256,8 @@ svg.chart text{font-family:Inter,sans-serif;font-size:11px;fill:var(--muted)}
 .acts{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
 .act{border-radius:10px;padding:11px 8px;margin:0 -8px}.act:hover{background:var(--surface2)}
 @media (max-width:1100px){.dg1{grid-template-columns:minmax(0,1fr)}.acts{grid-template-columns:1fr}}
-@media (max-width:860px){.hero{padding:18px}.hero h1{font-size:20px}.hero-r{width:100%}.hero-r .btn{flex:1}.dg2{grid-template-columns:minmax(0,1fr)}.dsel{margin-left:0;width:100%;display:grid;grid-template-columns:1fr 1fr}.dsel select.in{min-width:0;width:100%}.dsel .btn{grid-column:1/-1}.kpi2 .kvl{font-size:22px}.sttiles{gap:8px}.stt b{font-size:22px}.kpis .kpi2:nth-child(2){grid-column:1/-1;order:-1}.kmoney{font-size:24px}.donut{width:124px;height:124px}.dleg div{grid-template-columns:10px 1fr auto 36px;padding:8px 9px;gap:7px}.stt{padding:11px 9px}.stt span{font-size:9.5px}.stt em{font-size:10.5px}}
+@media (max-width:860px){.hero{padding:18px}.hero h1{font-size:20px}.hero-r{width:100%}.hero-r .btn{flex:1}.dg2{grid-template-columns:minmax(0,1fr)}.dsel{margin-left:0;width:100%;display:grid;grid-template-columns:1fr 1fr}.dsel select.in{min-width:0;width:100%}.dsel .btn{grid-column:1/-1}.kpi2 .kvl{font-size:22px}.sttiles{gap:8px}.stt b{font-size:22px}.kpis .kpi2:nth-child(2){grid-column:1/-1;order:-1}.kpis .kpi2:last-child{grid-column:1/-1}.sttiles{grid-template-columns:repeat(2,minmax(0,1fr))}.kmoney{font-size:24px}.donut{width:124px;height:124px}.dleg div{grid-template-columns:10px 1fr auto 36px;padding:8px 9px;gap:7px}.stt{padding:11px 9px}.stt span{font-size:9.5px}.stt em{font-size:10.5px}}
+@media (max-width:860px){.rq3{grid-template-columns:1fr 1fr!important}.rq3>div:first-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -297,14 +300,16 @@ const ICON={
  key:'M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zM15.5 7.5l3 3L22 7l-3-3',
  down:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
  undo:'M3 7v6h6M21 17a9 9 0 0 0-15-6.7L3 13',
+ recusas:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM4.9 4.9l14.2 14.2',
  check:'M20 6L9 17l-5-5',
  img:'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM21 15l-5-5L5 21'
 };
 const ic=(n,s)=>`<svg class="i" viewBox="0 0 24 24"${s?` style="width:${s}px;height:${s}px"`:''}><path d="${ICON[n]}"/></svg>`;
 function toast(msg,type){const t=document.createElement('div');t.textContent=msg;if(type)t.className=type;$('#toast').appendChild(t);setTimeout(()=>t.remove(),type==='err'?5200:2800)}
 const UNIDADES=['UN','PC','M','M²','M³','KG','L','CX','CJ','PAR','JG','RL','KIT','TB','GL'];
-const STATUS_SAIDA=['APLICAÇÃO','EMBARQUE','TRANSFERÊNCIA'];
-const stCls=s=>s==='APLICAÇÃO'?'ap':s==='EMBARQUE'?'em':'tr';
+const STATUS_SAIDA=['APLICAÇÃO','EMBARQUE','TRANSFERÊNCIA','DEVOLUÇÃO'];
+const stCls=s=>s==='APLICAÇÃO'?'ap':s==='EMBARQUE'?'em':s==='DEVOLUÇÃO'?'dv':'tr';
+const MOTIVOS_RECUSA=['Divergência na NF','Material avariado','Quantidade divergente','Especificação incorreta','Documentação incompleta','Inspeção reprovada','Outro'];
 const sitCls=s=>s==='EM ESTOQUE'?'est':s==='PARCIAL'?'par':'bx';
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 
@@ -333,7 +338,7 @@ function qrSVG(text){if(!window.qrcode)return '<div class="faint" style="font-si
 /* ============ estado ============ */
 const S={db:null,auth:null,authReady:false,metaLoaded:false,hasAdmin:true,user:null,users:[],mats:[],config:{},loaded:{users:false,mats:false},stale:false,
  view:'dashboard',editId:null,form:null,fotos:[],sel:new Set(),
- q:'',fSit:'',fPlat:'',dash:{p:'30',plat:'',ct:'',de:'',ate:''},rep:{tipo:'todos',plat:'',de:'',ate:''},lab:{q:'',fmt:'termica'},readOnly:false};
+ q:'',fSit:'',fPlat:'',dash:{p:'30',plat:'',ct:'',de:'',ate:''},rep:{tipo:'todos',plat:'',ct:'',de:'',ate:''},rq:'',rCt:'',recusas:[],lab:{q:'',fmt:'termica'},readOnly:false};
 const cfg=()=>S.config||{};
 const empresa=()=>cfg().empresa||'Actemium';
 const isAdmin=()=>S.user&&S.user.perfil==='admin';
@@ -373,7 +378,8 @@ async function handleUser(u){
 }
 function startData(){
  unsubs.push(S.db.collection('materiais').onSnapshot(snap=>{
-   S.mats=snap.docs.map(d=>{const o=Object.assign({id:d.id},d.data());o.saidas=Array.isArray(o.saidas)?o.saidas.slice():[];return o});
+   const all=snap.docs.map(d=>{const o=Object.assign({id:d.id},d.data());o.saidas=Array.isArray(o.saidas)?o.saidas.slice():[];return o});
+   S.mats=all.filter(o=>o.tipo!=='recusa');S.recusas=all.filter(o=>o.tipo==='recusa');
    S.loaded.mats=true;refresh(true);
  },err=>toast('Erro ao carregar materiais: '+(err.message||err.code),'err')));
  unsubs.push(S.db.collection('usuarios').onSnapshot(snap=>{
@@ -406,7 +412,7 @@ function refresh(fromMats){
  if(!S.authReady||!S.metaLoaded)return;
  if(!S.user){if(!$('#loginBox'))render();return}
  if(!$('#view')){render();return}
- if(S.view==='entrada'&&fromMats)return; // não apagar o formulário em edição
+ if((S.view==='entrada'||S.view==='recusaNova')&&fromMats)return; // não apagar o formulário em edição
  updateChrome();renderView();
  const md=$('#modal-root .md');if(md&&md.dataset.mat&&fromMats){const m=getMat(md.dataset.mat);if(m&&!md.dataset.form)openDetail(m.id,true)}
 }
@@ -429,23 +435,25 @@ function render(){
  updateChrome();renderView();
 }
 function navItems(){return [
- {v:'dashboard',t:'Painel'},{v:'estoque',t:'Estoque'},{v:'entrada',t:'Nova entrada'},{v:'relatorios',t:'Relatórios Excel'},{v:'etiquetas',t:'Etiquetas'},
+ {v:'dashboard',t:'Painel'},{v:'estoque',t:'Estoque'},{v:'entrada',t:'Nova entrada'},{v:'recusas',t:'NFs recusadas'},{v:'relatorios',t:'Relatórios Excel'},{v:'etiquetas',t:'Etiquetas'},
  ...(isAdmin()?[{v:'usuarios',t:'Usuários'},{v:'config',t:'Configurações'}]:[])]}
 function brandHTML(){const c=cfg();return (c.logo?`<img src="${esc(c.logo)}" alt="">`:`<span class="wordmark">${esc(empresa().toUpperCase())}</span>`)+`<div><small>Controle de Materiais MPT</small></div>`}
 function updateChrome(){
  ['#brandSide','#brandTop'].forEach(s=>{const e=$(s);if(e)e.innerHTML=brandHTML()});
- document.querySelectorAll('[data-act="go"]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.view));
+ document.querySelectorAll('[data-act="go"]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.view||(S.view==='recusaNova'&&b.dataset.v==='recusas')));
 }
 function go(v){
  if(['usuarios','config'].includes(v)&&!isAdmin())v='dashboard';
  if(v==='entrada'&&S.view!=='entrada'){S.editId=null;S.fotos=[];S.form=null}
+ if(v==='recusaNova'&&S.view!=='recusaNova'){S.fotos=[];S.rform=null;S._fotosLoaded=true;S._fotosDirty=false}
  S.view=v;closeModal();updateChrome();renderView();window.scrollTo(0,0);
 }
 function renderView(){
  const el=$('#view');if(!el)return;
- const f={dashboard:vDashboard,estoque:vEstoque,entrada:vEntrada,relatorios:vRelatorios,etiquetas:vEtiquetas,usuarios:vUsuarios,config:vConfig}[S.view]||vDashboard;
+ const f={dashboard:vDashboard,estoque:vEstoque,entrada:vEntrada,recusas:vRecusas,recusaNova:vRecusaNova,relatorios:vRelatorios,etiquetas:vEtiquetas,usuarios:vUsuarios,config:vConfig}[S.view]||vDashboard;
  el.innerHTML=f();
  if(S.view==='entrada')afterEntrada();
+ if(S.view==='recusaNova')afterRecusa();
 }
 
 /* ============ login ============ */
@@ -515,8 +523,8 @@ const inR=(d,[a,b])=>d&&d>=a&&d<=b;
 function vDashboard(){
  const [a,b]=dashRange(),pl=S.dash.plat;
  const ct=S.dash.ct;const mats=S.mats.filter(m=>(!pl||m.plataforma===pl)&&(!ct||(m.contrato||'')===ct));
- const contrs=[...new Set(S.mats.map(m=>m.contrato).filter(Boolean))].sort();
- let estQ=0,estV=0,bx=0,par=0,est=0,entN=0,entV=0,saiN=0;const stC={'APLICAÇÃO':0,'EMBARQUE':0,'TRANSFERÊNCIA':0};
+ const contrs=[...new Set([...S.mats,...S.recusas].map(m=>m.contrato).filter(Boolean))].sort();
+ let estQ=0,estV=0,bx=0,par=0,est=0,entN=0,entV=0,saiN=0;const stC={'APLICAÇÃO':0,'EMBARQUE':0,'TRANSFERÊNCIA':0,'DEVOLUÇÃO':0};
  const byPlat={};const ev=[];
  mats.forEach(m=>{const s=sit(m);
   if(s.saldo>0){estQ++;estV+=s.saldo*(+m.valorUnit||0)}
@@ -526,6 +534,8 @@ function vDashboard(){
   ev.push({t:'in',ts:m.criadoEm||0,d:m.data,m});
   s.sd.forEach(x=>{if(inR(x.data,[a,b])){saiN++;if(stC[x.status]!=null)stC[x.status]++}ev.push({t:'out',ts:x.em||0,d:x.data,m,s:x})});
  });
+ const recs=S.recusas.filter(r=>(!pl||r.plataforma===pl)&&(!ct||(r.contrato||'')===ct));const recN=recs.filter(r=>inR(r.data,[a,b])).length;
+ recs.forEach(r=>ev.push({t:'rec',ts:r.criadoEm||0,d:r.data,m:r}));
  // mensal: 6 meses terminando no mês de "ate" (ou atual)
  const endD=(S.dash.p==='custom'&&S.dash.ate)?new Date(S.dash.ate+'T12:00'):new Date();
  const months=[];for(let i=5;i>=0;i--){const d=new Date(endD.getFullYear(),endD.getMonth()-i,1);months.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}
@@ -543,7 +553,7 @@ const periodos=[['7','7 dias'],['30','30 dias'],['90','90 dias'],['mes','Este m�
  const hoje=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
  const h=new Date().getHours();const saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
  const kpi=(icn,cor,bg,lb,vl,sb)=>`<div class="card kpi2" style="--c:${cor};--cb:${bg}"><div class="kt"><span class="kic">${ic(icn,18)}</span><span class="klb">${lb}</span></div><div class="kvl">${vl}</div><div class="ksb">${sb}</div></div>`;
- const stCols=['#0b5cad','#6941c6','#c2570c'],stBg=['#e7f0fb','#f1ecfb','#fdf0e6'];const stTot=Math.max(1,saiN);
+ const stCols=['#0b5cad','#6941c6','#c2570c','#0f766e'],stBg=['#e7f0fb','#f1ecfb','#fdf0e6','#e3f4f1'];const stTot=Math.max(1,saiN);
  const platCols=['#0b5cad','#1570c9','#2e86de','#4c9be8','#6aaef0','#8bc0f4','#a9d0f7','#c6e0fa'];
  return `<div class="hero"><div class="hero-l"><div class="hero-d">${esc(hoje)}</div><h1>${saud}, ${esc(S.user.nome.split(' ')[0])}!</h1><p>Resumo dos materiais MPT${ct?' — contrato <b>'+esc(ct)+'</b>':''}${pl?' — plataforma <b>'+esc(pl)+'</b>':''}.</p></div>
   <div class="hero-r"><button class="btn hb1" data-act="go" data-v="entrada">${ic('entrada',16)}Nova entrada</button><button class="btn hb2" data-act="scanQR">${ic('qr',16)}Ler QR</button><button class="btn hb2" data-act="go" data-v="relatorios">${ic('relatorios',16)}Relatório</button></div></div>
@@ -555,8 +565,9 @@ const periodos=[['7','7 dias'],['30','30 dias'],['90','90 dias'],['mes','Este m�
    ${kpi('estoque','#0b5cad','#e7f0fb','Itens em estoque',estQ,`${est} completos · ${par} parciais`)}
    ${kpi('relatorios','#6941c6','#f1ecfb','Valor em estoque',`<span class="kmoney">${brl(estV)}</span>`,'saldo × valor unitário')}
    ${kpi('in','#0f8a5f','#e5f5ee','Entradas no período',entN,brl(entV))}
-   ${kpi('out','#c2570c','#fdf0e6','Saídas no período',saiN,`${stC['APLICAÇÃO']} aplic. · ${stC['EMBARQUE']} emb. · ${stC['TRANSFERÊNCIA']} transf.`)}
+   ${kpi('out','#c2570c','#fdf0e6','Saídas no período',saiN,`${stC['APLICAÇÃO']} aplic. · ${stC['EMBARQUE']} emb. · ${stC['TRANSFERÊNCIA']} transf. · ${stC['DEVOLUÇÃO']} dev.`)}
    ${kpi('check','#475569','#eef1f5','Materiais baixados',bx,`de ${mats.length} cadastrados`)}
+   ${kpi('recusas','#c42b2b','#fdecec','NFs recusadas',recN,`no período · ${recs.length} no total`)}
   </div>
   <div class="grid dg1">
    <div class="card pad"><div class="ch"><h3>Movimentação mensal</h3><div class="legend" style="margin:0"><span><i style="background:#0f8a5f"></i>Entradas</span><span><i style="background:#c2570c"></i>Saídas</span></div></div>
@@ -571,9 +582,9 @@ const periodos=[['7','7 dias'],['30','30 dias'],['90','90 dias'],['mes','Este m�
     <div class="sttiles">${STATUS_SAIDA.map((k,i)=>`<div class="stt" style="background:${stBg[i]};color:${stCols[i]}"><span>${k}</span><b>${stC[k]}</b><div class="sbar"><i style="width:${stC[k]/stTot*100}%;background:${stCols[i]}"></i></div><em>${saiN?Math.round(stC[k]/stTot*100):0}% das saídas</em></div>`).join('')}</div></div>
    <div class="card pad"><h3>Estoque por plataforma <small>itens com saldo</small></h3>${platArr.length?platArr.map(([k,v],i)=>`<div class="hb"><span title="${esc(k)}"><em class="rk">${i+1}</em>${esc(k)}</span><div class="tr"><i style="width:${v/pmax*100}%;background:${platCols[i]}"></i></div><b>${v}</b></div>`).join(''):'<div class="empty">Nenhum item em estoque.</div>'}</div>
   </div>
-  <div class="card pad" style="margin-top:14px"><div class="ch"><h3>Atualizações recentes</h3><button class="btn sm" data-act="go" data-v="estoque">Ver estoque</button></div>${ev.length?`<div class="acts">${ev.slice(0,10).map(e=>`<div class="act" data-act="detail" data-id="${e.m.id}" style="cursor:pointer">
-     <div class="ic ${e.t}">${ic(e.t==='in'?'in':'out',16)}</div>
-     <div class="tx"><b>${e.t==='in'?'Entrada':'Saída'}</b> · ${esc(e.m.descricao||'')}<div>${esc(e.m.codigo||'')}${e.m.plataforma?' · '+esc(e.m.plataforma):''}${e.t==='out'?` · ${fmtN(e.s.quantidade)} ${esc(e.m.unidade||'')} <span class="chip ${stCls(e.s.status)}" style="padding:1px 7px">${esc(e.s.status)}</span>`:` · ${fmtN(e.m.quantidade)} ${esc(e.m.unidade||'')}`} · ${esc(e.t==='in'?(e.m.criadoPor||''):(e.s.usuario||''))}</div></div>
+  <div class="card pad" style="margin-top:14px"><div class="ch"><h3>Atualizações recentes</h3><button class="btn sm" data-act="go" data-v="estoque">Ver estoque</button></div>${ev.length?`<div class="acts">${ev.slice(0,10).map(e=>`<div class="act" data-act="${e.t==='rec'?'recDetail':'detail'}" data-id="${e.m.id}" style="cursor:pointer">
+     <div class="ic ${e.t}">${ic(e.t==='in'?'in':e.t==='rec'?'recusas':'out',16)}</div>
+     <div class="tx"><b>${e.t==='in'?'Entrada':e.t==='rec'?'NF recusada':'Saída'}</b> · ${esc(e.m.descricao||'')}<div>${e.t==='rec'?'NF '+esc(e.m.nf||'')+(e.m.contrato?' · '+esc(e.m.contrato):''):esc(e.m.codigo||'')}${e.m.plataforma?' · '+esc(e.m.plataforma):''}${e.t==='rec'?` · <span class="chip rc" style="padding:1px 7px">${esc(e.m.motivoTipo||'Recusada')}</span>`:e.t==='out'?` · ${fmtN(e.s.quantidade)} ${esc(e.m.unidade||'')} <span class="chip ${stCls(e.s.status)}" style="padding:1px 7px">${esc(e.s.status)}</span>`:` · ${fmtN(e.m.quantidade)} ${esc(e.m.unidade||'')}`} · ${esc(e.t==='out'?(e.s.usuario||''):(e.m.criadoPor||''))}</div></div>
      <time>${fmtD(e.d)}</time></div>`).join('')}</div>`:'<div class="empty"><b>Nenhuma movimentação ainda</b>Registre a primeira entrada de material.</div>'}</div>`;
 }
 function donut(parts,total,lab){const R=52,C=2*Math.PI*R;const sum=parts.reduce((a,p)=>a+p[0],0);let off=0;
@@ -595,7 +606,7 @@ function filtered(){
  const q=S.q.trim().toLowerCase();
  return S.mats.filter(m=>{const s=sit(m);
   if(S.fSit&&s.st!==S.fSit)return false;if(S.fPlat&&m.plataforma!==S.fPlat)return false;
-  if(q){const hay=[m.codigo,m.descricao,m.nf,m.nm,m.rt,m.ss,m.contrato,m.registro,m.plataforma,m.local,m.observacao,...s.sd.flatMap(x=>[x.nf,x.nfDevolucao,x.rtFwo,x.op,x.status])].join(' ').toLowerCase();if(!hay.includes(q))return false}
+  if(q){const hay=[m.codigo,m.descricao,m.nf,m.nm,m.rt,m.ss,m.contrato,m.registro,m.plataforma,m.local,m.observacao,...s.sd.flatMap(x=>[x.nf,x.nm,x.grd,x.nfDevolucao,x.rtFwo,x.op,x.status])].join(' ').toLowerCase();if(!hay.includes(q))return false}
   return true}).sort((a,b)=>(b.data||'').localeCompare(a.data||'')||(b.criadoEm||0)-(a.criadoEm||0));
 }
 function vEstoque(){
@@ -644,7 +655,7 @@ function openDetail(id,keep){
   ${(+m.fotos||0)>0?`<div class="sec">Fotos</div><div class="photos" id="detFotos"><span class="muted">Carregando fotos…</span></div>`:''}
   <div class="sec">Saídas (${s.sd.length})</div>
   ${s.sd.length?s.sd.map((x,i)=>`<div class="hist"><div class="hh"><div class="row" style="gap:8px"><span class="chip ${stCls(x.status)}">${esc(x.status)}</span><b class="mono">${fmtN(x.quantidade)} ${esc(m.unidade||'')}</b><span class="muted">${fmtD(x.data)}</span></div>${isAdmin()?`<button class="btn sm d" data-act="estornar" data-id="${m.id}" data-i="${i}">${ic('undo',14)}Estornar</button>`:''}</div>
-   <div class="hd">${x.nf?`<span>NF: <b>${esc(x.nf)}</b></span>`:''}${x.nfDevolucao?`<span>NF devolução: <b>${esc(x.nfDevolucao)}</b></span>`:''}${x.rtFwo?`<span>RT/FWO: <b>${esc(x.rtFwo)}</b></span>`:''}${x.op?`<span>OP: <b>${esc(x.op)}</b></span>`:''}<span>por ${esc(x.usuario||'—')}</span></div>
+   <div class="hd">${x.nf?`<span>NF: <b>${esc(x.nf)}</b></span>`:''}${x.nm?`<span>NM: <b>${esc(x.nm)}</b></span>`:''}${x.grd?`<span>GRD: <b>${esc(x.grd)}</b></span>`:''}${x.nfDevolucao?`<span>NF devolução: <b>${esc(x.nfDevolucao)}</b></span>`:''}${x.rtFwo?`<span>RT/FWO: <b>${esc(x.rtFwo)}</b></span>`:''}${x.op?`<span>OP: <b>${esc(x.op)}</b></span>`:''}<span>por ${esc(x.usuario||'—')}</span></div>
    ${x.observacao?`<div class="hd">${esc(x.observacao)}</div>`:''}</div>`).join(''):'<div class="muted">Nenhuma saída registrada.</div>'}
  </div>
  <div class="mf">
@@ -675,7 +686,7 @@ function vEntrada(){
  const contr=[...new Set(S.mats.map(x=>x.contrato).filter(Boolean))].sort();
  const I=(name,label,o={})=>`<div class="f${o.cls?' '+o.cls:''}"><label>${label}${o.req?' <span class="req">*</span>':''}</label><input class="in" name="${name}" value="${esc(o.val!=null?o.val:(v[name]??''))}" ${o.req?'required':''} ${o.type?`type="${o.type}"`:''} ${o.list?`list="${o.list}"`:''} ${o.im?`inputmode="${o.im}"`:''} ${o.ro?'readonly':''} placeholder="${esc(o.ph||'')}" autocomplete="off"></div>`;
  const nb=x=>x===''||x==null?'':String(x).replace('.',',');
- return `<div class="ph"><div><h1>${m?'Editar entrada':'Nova entrada de material'}</h1><p>${m?esc(m.codigo):'Preencha os dados do recebimento. Campos com * são obrigatórios.'}</p></div>${m?`<button class="btn" data-act="cancelEdit">Cancelar</button>`:''}</div>
+ return `<div class="ph"><div><h1>${m?'Editar entrada':'Nova entrada de material'}</h1><p>${m?esc(m.codigo):'Preencha os dados do recebimento. Campos com * são obrigatórios.'}</p></div>${m?`<button class="btn" data-act="cancelEdit">Cancelar</button>`:`<button class="btn d" data-act="go" data-v="recusaNova">${ic('recusas',16)}Registrar NF recusada</button>`}</div>
  <form class="card pad" data-form="entrada" id="fEntrada" style="max-width:980px">
   <div class="sec">Documentos</div>
   <div class="grid g4 fg">${I('data','Data',{type:'date',req:1,val:v.data||today()})}${I('contrato','Contrato',{list:'dlContr'})}${I('nf','NF')}${I('nm','NM')}${I('rt','RT')}${I('ss','SS')}${I('registro','Registro')}${I('plataforma','Plataforma',{list:'dlPlat',ph:'Ex.: P-74'})}</div>
@@ -735,6 +746,72 @@ FORMS.entrada=async f=>{
  }catch(e){wErr(e);if(btn.isConnected){btn.disabled=false;btn.textContent=old?'Salvar alterações':'Registrar entrada'}}
 };
 
+/* ============ NFs RECUSADAS ============ */
+function vRecusas(){
+ const contrs=[...new Set([...S.mats,...S.recusas].map(m=>m.contrato).filter(Boolean))].sort();
+ return `<div class="ph"><div><h1>NFs recusadas</h1><p>${S.recusas.length} registro(s) de recebimento recusado</p></div><button class="btn d" data-act="go" data-v="recusaNova">${ic('recusas',16)}Registrar NF recusada</button></div>
+ <div class="filters" style="grid-template-columns:2fr 1fr"><div class="searchw">${ic('search',16)}<input class="in" placeholder="Buscar NF, material, fornecedor, motivo…" value="${esc(S.rq)}" data-inp="rq"></div>
+  <select class="in" data-chg="rCt"><option value="">Todos os contratos</option>${contrs.map(c=>`<option ${S.rCt===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
+ <div id="recList">${recListHTML()}</div>`;
+}
+function recFiltered(){const q=S.rq.trim().toLowerCase();return S.recusas.filter(r=>(!S.rCt||(r.contrato||'')===S.rCt)&&(!q||[r.nf,r.nm,r.contrato,r.fornecedor,r.descricao,r.plataforma,r.motivoTipo,r.motivo,r.observacao].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.data||'').localeCompare(a.data||'')||(b.criadoEm||0)-(a.criadoEm||0))}
+function recListHTML(){
+ const L=recFiltered();
+ if(!L.length)return `<div class="card empty"><b>${S.recusas.length?'Nenhum registro encontrado':'Nenhuma NF recusada'}</b>${S.recusas.length?'Ajuste a busca ou o filtro.':'Quando um recebimento for recusado, registre aqui com o motivo e as fotos.'}</div>`;
+ return `<div class="card tw"><table class="tbl rsp"><thead><tr><th>NF / Material</th><th>Data</th><th>Contrato</th><th>Fornecedor</th><th>Motivo</th><th style="text-align:center">Fotos</th></tr></thead><tbody>
+ ${L.map(r=>`<tr class="click" data-act="recDetail" data-id="${r.id}"><td class="desc">NF ${esc(r.nf||'—')}<small>${esc(r.descricao||'')}${r.nm?' · NM '+esc(r.nm):''}</small></td><td data-l="Data" class="mono">${fmtD(r.data)}</td><td data-l="Contrato">${esc(r.contrato||'—')}</td><td data-l="Fornecedor">${esc(r.fornecedor||'—')}</td><td><span class="chip rc">${esc(r.motivoTipo||'Recusada')}</span></td><td data-l="Fotos" style="text-align:center">${+r.fotos||0}</td></tr>`).join('')}
+ </tbody></table></div>`;
+}
+function renderRecList(){const l=$('#recList');if(l)l.innerHTML=recListHTML()}
+function vRecusaNova(){
+ const v=S.rform||{};
+ const all=[...S.mats,...S.recusas];
+ const contr=[...new Set(all.map(x=>x.contrato).filter(Boolean))].sort(),plats=[...new Set(all.map(x=>x.plataforma).filter(Boolean))].sort(),forns=[...new Set(S.recusas.map(x=>x.fornecedor).filter(Boolean))].sort();
+ const I=(name,label,o={})=>`<div class="f"><label>${label}${o.req?' <span class="req">*</span>':''}</label><input class="in" name="${name}" value="${esc(o.val!=null?o.val:(v[name]??''))}" ${o.req?'required':''} ${o.type?`type="${o.type}"`:''} ${o.list?`list="${o.list}"`:''} ${o.im?`inputmode="${o.im}"`:''} placeholder="${esc(o.ph||'')}" autocomplete="off"></div>`;
+ return `<div class="ph"><div><h1>Registrar NF recusada</h1><p>Use quando o material for recusado no ato do recebimento. Campos com * são obrigatórios.</p></div><button class="btn" data-act="go" data-v="recusas">Ver recusas</button></div>
+ <form class="card pad" data-form="recusa" id="fRecusa" style="max-width:980px">
+  <div class="sec">Nota fiscal</div>
+  <div class="grid g4 fg">${I('data','Data',{type:'date',req:1,val:v.data||today()})}${I('nf','NF recusada',{req:1})}${I('contrato','Contrato',{list:'dlRContr'})}${I('fornecedor','Fornecedor',{list:'dlForn'})}${I('nm','NM')}${I('plataforma','Plataforma',{list:'dlRPlat'})}</div>
+  <div class="sec">Material</div>
+  <div class="grid fg rq3" style="grid-template-columns:minmax(0,3fr) minmax(0,1fr) minmax(0,1fr)"><div class="f"><label>Descrição do material <span class="req">*</span></label><input class="in" name="descricao" required value="${esc(v.descricao||'')}" autocomplete="off"></div>${I('quantidade','Quantidade',{im:'decimal'})}${I('unidade','Unidade',{list:'dlUn2',val:v.unidade||'UN'})}</div>
+  <div class="sec">Motivo da recusa</div>
+  <div class="f"><label>Motivo <span class="req">*</span></label><div class="pill-tabs" id="motTabs">${MOTIVOS_RECUSA.map(k=>`<button type="button" class="${v.motivoTipo===k?'on':''}" data-act="pickMot" data-m="${k}">${k}</button>`).join('')}</div><input type="hidden" name="motivoTipo" value="${esc(v.motivoTipo||'')}"></div>
+  <div class="f" style="margin-top:14px"><label>Descreva o motivo <span class="req">*</span></label><textarea class="in" name="motivo" required placeholder="Ex.: 3 válvulas com flange amassado; NF com quantidade diferente do pedido…">${esc(v.motivo||'')}</textarea></div>
+  <div class="sec">Fotos do material recusado</div>
+  <div class="photos" id="fotosBox"></div>
+  <input type="file" id="fotoInput" accept="image/*" multiple hidden data-chg="fotos"><input type="file" id="fotoCam" accept="image/*" capture="environment" hidden data-chg="fotos">
+  <div class="f" style="margin-top:14px"><label>Observação</label><textarea class="in" name="observacao">${esc(v.observacao||'')}</textarea></div>
+  <div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn" type="button" data-act="go" data-v="recusas">Cancelar</button><button class="btn d" type="submit" id="btnRec" style="background:var(--red);color:#fff;border-color:var(--red)">${ic('recusas',15)}Registrar recusa</button></div>
+  <datalist id="dlRContr">${contr.map(p=>`<option value="${esc(p)}">`).join('')}</datalist><datalist id="dlRPlat">${plats.map(p=>`<option value="${esc(p)}">`).join('')}</datalist><datalist id="dlForn">${forns.map(p=>`<option value="${esc(p)}">`).join('')}</datalist><datalist id="dlUn2">${UNIDADES.map(p=>`<option value="${p}">`).join('')}</datalist>
+ </form>`;
+}
+function recFormObj(f){const o={};['data','nf','contrato','fornecedor','nm','plataforma','descricao','quantidade','unidade','motivoTipo','motivo','observacao'].forEach(k=>o[k]=f[k].value);return o}
+function afterRecusa(){const f=$('#fRecusa');if(!f)return;f.addEventListener('input',()=>{S.rform=recFormObj(f)});renderFotos()}
+FORMS.recusa=async f=>{
+ const o=recFormObj(f);
+ if(!o.motivoTipo)return toast('Selecione o motivo da recusa.','err');
+ const now=Date.now();
+ const data={tipo:'recusa',data:o.data,nf:o.nf.trim(),contrato:o.contrato.trim(),fornecedor:o.fornecedor.trim(),nm:o.nm.trim(),plataforma:o.plataforma.trim().toUpperCase(),descricao:o.descricao.trim(),quantidade:num(o.quantidade),unidade:(o.unidade.trim()||'UN').toUpperCase(),motivoTipo:o.motivoTipo,motivo:o.motivo.trim(),observacao:o.observacao.trim(),fotos:S.fotos.length,fotosV:now,saidas:[],criadoPor:S.user.nome,criadoUser:S.user.id,criadoEm:now};
+ const btn=$('#btnRec');btn.disabled=true;
+ try{
+  const ref=S.db.collection('materiais').doc();
+  await retry(()=>ref.set(data));
+  for(let i=0;i<S.fotos.length;i++)await retry(()=>S.db.doc('fotos/'+ref.id+'-'+i).set({img:S.fotos[i],mat:ref.id}));
+  toast('NF '+data.nf+' registrada como recusada.');S.rform=null;S.fotos=[];
+  S.view='recusas';updateChrome();renderView();setTimeout(()=>openRecusa(ref.id),150);
+ }catch(e){wErr(e);if(btn.isConnected)btn.disabled=false}
+};
+function openRecusa(id){
+ const r=S.recusas.find(x=>x.id===id);if(!r)return;
+ const F=(l,v,cls)=>`<div class="${cls||''}"><small>${l}</small><b>${v===''||v==null?'—':v}</b></div>`;
+ openModal(`<div class="mh"><div><h2>NF ${esc(r.nf||'')} recusada</h2><div class="row" style="margin-top:6px;gap:6px"><span class="chip rc">${esc(r.motivoTipo||'Recusada')}</span><span class="muted" style="font-size:12.5px">${fmtD(r.data)}</span></div></div><button class="btn ghost sm" data-act="close">${ic('x')}</button></div>
+ <div class="mb"><div class="dl">${F('Data',fmtD(r.data))}${F('NF',esc(r.nf))}${F('Contrato',esc(r.contrato))}${F('Fornecedor',esc(r.fornecedor))}${F('NM',esc(r.nm))}${F('Plataforma',esc(r.plataforma))}${F('Material',esc(r.descricao),'full')}${F('Quantidade',r.quantidade?fmtN(r.quantidade)+' '+esc(r.unidade||''):'')}${F('Motivo',esc(r.motivoTipo))}${F('Detalhes do motivo',esc(r.motivo),'full')}${r.observacao?F('Observação',esc(r.observacao),'full'):''}
+  <div class="full faint" style="font-size:12px">Registrado por ${esc(r.criadoPor||'—')} em ${fmtDT(r.criadoEm)}</div></div>
+  ${(+r.fotos||0)>0?`<div class="sec">Fotos</div><div class="photos" id="recFotos"><span class="muted">Carregando fotos…</span></div>`:''}</div>
+ <div class="mf">${isAdmin()?`<button class="btn d" data-act="delRec" data-id="${r.id}" style="margin-right:auto">${ic('trash',15)}Excluir</button>`:''}<button class="btn" data-act="close">Fechar</button></div>`,'lg');
+ if(+r.fotos)loadFotos(r).then(arr=>{const b=$('#recFotos');if(b)b.innerHTML=arr.length?arr.map((u,i)=>`<div class="ph1"><img src="${u}" data-act="zoomRec" data-i="${i}"></div>`).join(''):'<span class="muted">Fotos não encontradas.</span>';S._zoom=arr});
+}
+
 /* ============ SAÍDA ============ */
 function openSaida(id){
  const m=getMat(id);if(!m)return;const s=sit(m);
@@ -744,6 +821,8 @@ function openSaida(id){
    <div class="f"><label>Data da saída <span class="req">*</span></label><input class="in" type="date" name="data" value="${today()}" required></div>
    <div class="f"><label>Quantidade (${esc(m.unidade||'')}) <span class="req">*</span></label><input class="in" name="quantidade" inputmode="decimal" value="${String(s.saldo).replace('.',',')}" required></div>
    <div class="f"><label>NF</label><input class="in" name="nf" autocomplete="off"></div>
+   <div class="f"><label>NM</label><input class="in" name="nm" autocomplete="off"></div>
+   <div class="f"><label>GRD</label><input class="in" name="grd" autocomplete="off"></div>
    <div class="f"><label>NF de devolução</label><input class="in" name="nfDevolucao" autocomplete="off"></div>
    <div class="f"><label>RT/FWO</label><input class="in" name="rtFwo" autocomplete="off"></div>
    <div class="f"><label>OP</label><input class="in" name="op" autocomplete="off"></div>
@@ -756,11 +835,11 @@ function openSaida(id){
 FORMS.saida=async f=>{
  const m=getMat(f.dataset.id);if(!m)return;const s=sit(m);
  const q=num(f.quantidade.value);
- if(!f.status.value)return toast('Selecione o status: Aplicação, Embarque ou Transferência.','err');
+ if(!f.status.value)return toast('Selecione o status: Aplicação, Embarque, Transferência ou Devolução.','err');
  if(q<=0)return toast('Quantidade inválida.','err');
  if(q>s.saldo+1e-9)return toast(`Quantidade maior que o saldo (${fmtN(s.saldo)}).`,'err');
  const now=Date.now();
- const sd={id:now.toString(36)+Math.random().toString(36).slice(2,6),data:f.data.value,quantidade:q,nf:f.nf.value.trim(),nfDevolucao:f.nfDevolucao.value.trim(),rtFwo:f.rtFwo.value.trim(),status:f.status.value,op:f.op.value.trim(),observacao:f.observacao.value.trim(),usuario:S.user.nome,em:now};
+ const sd={id:now.toString(36)+Math.random().toString(36).slice(2,6),data:f.data.value,quantidade:q,nf:f.nf.value.trim(),nm:f.nm.value.trim(),grd:f.grd.value.trim(),nfDevolucao:f.nfDevolucao.value.trim(),rtFwo:f.rtFwo.value.trim(),status:f.status.value,op:f.op.value.trim(),observacao:f.observacao.value.trim(),usuario:S.user.nome,em:now};
  const btn=f.querySelector('[type=submit]');btn.disabled=true;
  try{await retry(()=>S.db.doc('materiais/'+m.id).update({saidas:[...m.saidas,sd],atualizadoPor:S.user.nome,atualizadoEm:now}));
   toast(r3(s.saldo-q)<=0?'Saída registrada — material baixado.':'Saída parcial registrada.');closeModal();setTimeout(()=>openDetail(m.id),120)}
@@ -770,24 +849,27 @@ FORMS.saida=async f=>{
 /* ============ RELATÓRIOS ============ */
 function repData(){
  const R=S.rep;const de=R.de||'0000',ate=R.ate||'9999';
- const mats=S.mats.filter(m=>{const s=sit(m);if(R.plat&&m.plataforma!==R.plat)return false;
+ const recs=S.recusas.filter(r=>(!R.plat||r.plataforma===R.plat)&&(!R.ct||(r.contrato||'')===R.ct)&&(!(R.de||R.ate)||(r.data>=de&&r.data<=ate))).sort((a,b)=>(a.data||'').localeCompare(b.data||''));
+ const mats=S.mats.filter(m=>{const s=sit(m);if(R.plat&&m.plataforma!==R.plat)return false;if(R.ct&&(m.contrato||'')!==R.ct)return false;
   if(R.tipo==='estoque'&&s.saldo<=0)return false;if(R.tipo==='baixados'&&s.st!=='BAIXADO')return false;
   if((R.de||R.ate)&&R.tipo!=='baixados'&&!(m.data>=de&&m.data<=ate))return false;
   if((R.de||R.ate)&&R.tipo==='baixados'){const l=s.last;if(!l||!(l.data>=de&&l.data<=ate))return false}
   return true}).sort((a,b)=>(a.data||'').localeCompare(b.data||''));
  const sds=[];mats.forEach(m=>sit(m).sd.forEach(x=>{if(!(R.de||R.ate)||(x.data>=de&&x.data<=ate))sds.push({m,x})}));
  sds.sort((a,b)=>(a.x.data||'').localeCompare(b.x.data||''));
- return {mats,sds};
+ return {mats,sds,recs};
 }
 function vRelatorios(){
  const R=S.rep;const plats=[...new Set(S.mats.map(m=>m.plataforma).filter(Boolean))].sort();
- const {mats,sds}=repData();const val=mats.reduce((a,m)=>a+sit(m).saldo*(+m.valorUnit||0),0);
+ const contrs=[...new Set([...S.mats,...S.recusas].map(m=>m.contrato).filter(Boolean))].sort();
+ const {mats,sds,recs}=repData();const val=mats.reduce((a,m)=>a+sit(m).saldo*(+m.valorUnit||0),0);
  const tipos=[['todos','Todos os materiais'],['estoque','Em estoque'],['baixados','Baixados']];
  return `<div class="ph"><div><h1>Relatórios em Excel</h1><p>Gere uma planilha com os materiais e o status atual de cada um.</p></div></div>
  <div class="grid" style="grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)">
   <div class="card pad"><h3>Filtros</h3>
    <div class="f"><label>Tipo de relatório</label><div class="pill-tabs">${tipos.map(([k,t])=>`<button class="${R.tipo===k?'on':''}" data-act="repTipo" data-t="${k}">${t}</button>`).join('')}</div></div>
-   <div class="grid g3" style="margin-top:14px">
+   <div class="grid g2" style="margin-top:14px">
+    <div class="f"><label>Contrato</label><select class="in" data-chg="repCt"><option value="">Todos os contratos</option>${contrs.map(c=>`<option ${R.ct===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
     <div class="f"><label>Plataforma</label><select class="in" data-chg="repPlat"><option value="">Todas</option>${plats.map(p=>`<option ${R.plat===p?'selected':''}>${esc(p)}</option>`).join('')}</select></div>
     <div class="f"><label>De</label><input type="date" class="in" value="${esc(R.de)}" data-chg="repDe"></div>
     <div class="f"><label>Até</label><input type="date" class="in" value="${esc(R.ate)}" data-chg="repAte"></div>
@@ -795,36 +877,42 @@ function vRelatorios(){
    <p class="faint" style="font-size:12px;margin:10px 0 0">${R.tipo==='baixados'?'O período considera a data da última saída.':'O período considera a data de entrada (e a data das saídas na aba de saídas).'}</p>
   </div>
   <div class="card pad"><h3>Prévia</h3>
-   <div class="dl" style="grid-template-columns:1fr 1fr"><div><small>Materiais</small><b style="font-size:20px">${mats.length}</b></div><div><small>Saídas</small><b style="font-size:20px">${sds.length}</b></div><div class="full"><small>Valor do saldo</small><b style="font-size:18px">${brl(val)}</b></div></div>
-   <p class="muted" style="font-size:12.5px">Abas: <b>Materiais</b> (todos os campos de entrada, saldo, situação e último status), <b>Saídas</b> (NF, NF de devolução, RT/FWO, status, OP) e <b>Resumo</b>.</p>
-   <button class="btn g" style="width:100%;margin-top:6px" data-act="excel" ${mats.length?'':'disabled'}>${ic('down',16)}Gerar Excel (.xlsx)</button>
+   <div class="dl" style="grid-template-columns:1fr 1fr"><div><small>Materiais</small><b style="font-size:20px">${mats.length}</b></div><div><small>Saídas</small><b style="font-size:20px">${sds.length}</b></div><div><small>NFs recusadas</small><b style="font-size:20px">${recs.length}</b></div><div><small>Contrato</small><b style="font-size:15px">${esc(R.ct||'Todos')}</b></div><div class="full"><small>Valor do saldo</small><b style="font-size:18px">${brl(val)}</b></div></div>
+   <p class="muted" style="font-size:12.5px">Abas: <b>Materiais</b> (todos os campos de entrada, saldo, situação e último status), <b>Saídas</b> (NF, NM, GRD, NF de devolução, RT/FWO, status, OP), <b>NFs recusadas</b> (motivo) e <b>Resumo</b>.</p>
+   <button class="btn g" style="width:100%;margin-top:6px" data-act="excel" ${mats.length||recs.length?'':'disabled'}>${ic('down',16)}Gerar Excel (.xlsx)</button>
   </div>
  </div>`;
 }
 async function gerarExcel(){
  try{await loadLib('xlsx')}catch(e){return toast(e.message,'err')}
- const X=window.XLSX;const {mats,sds}=repData();const R=S.rep;
+ const X=window.XLSX;const {mats,sds,recs}=repData();const R=S.rep;
  const H1=['DATA ENTRADA','CÓDIGO','CONTRATO','NF','NM','RT','SS','REGISTRO','PLATAFORMA','DESCRIÇÃO','UNIDADE','QTD ENTRADA','QTD SAÍDA','SALDO','VALOR UNITÁRIO','VALOR TOTAL','VALOR DO SALDO','LOCAL DE ARMAZENAMENTO','SITUAÇÃO','STATUS ATUAL','DATA ÚLTIMA SAÍDA','OBSERVAÇÃO','CADASTRADO POR'];
  const rows=mats.map(m=>{const s=sit(m);return [fmtD(m.data),m.codigo||'',m.contrato||'',m.nf||'',m.nm||'',m.rt||'',m.ss||'',m.registro||'',m.plataforma||'',m.descricao||'',m.unidade||'',+m.quantidade||0,s.out,s.saldo,+m.valorUnit||0,+m.valorTotal||0,Math.round(s.saldo*(+m.valorUnit||0)*100)/100,m.local||'',s.st,s.last?s.last.status:'EM ESTOQUE',s.last?fmtD(s.last.data):'',m.observacao||'',m.criadoPor||'']});
  const ws1=X.utils.aoa_to_sheet([H1,...rows]);
  fmtCols(X,ws1,rows.length,[14,15,16],[11,12,13]);
  ws1['!cols']=[12,16,14,12,12,12,12,12,14,42,9,11,10,10,14,14,14,24,13,15,14,30,18].map(w=>({wch:w}));
  ws1['!autofilter']={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:rows.length,c:H1.length-1}})};
- const H2=['DATA SAÍDA','CÓDIGO','DESCRIÇÃO','PLATAFORMA','QUANTIDADE','UNIDADE','NF','NF DE DEVOLUÇÃO','RT/FWO','STATUS','OP','OBSERVAÇÃO','NF ENTRADA','REGISTRADO POR'];
- const r2=sds.map(({m,x})=>[fmtD(x.data),m.codigo||'',m.descricao||'',m.plataforma||'',+x.quantidade||0,m.unidade||'',x.nf||'',x.nfDevolucao||'',x.rtFwo||'',x.status||'',x.op||'',x.observacao||'',m.nf||'',x.usuario||'']);
- const ws2=X.utils.aoa_to_sheet([H2,...r2]);fmtCols(X,ws2,r2.length,[],[4]);
- ws2['!cols']=[12,16,42,14,11,9,12,16,14,15,12,30,12,18].map(w=>({wch:w}));
+ const H2=['DATA SAÍDA','CÓDIGO','CONTRATO','DESCRIÇÃO','PLATAFORMA','QUANTIDADE','UNIDADE','NF','NM','GRD','NF DE DEVOLUÇÃO','RT/FWO','STATUS','OP','OBSERVAÇÃO','NF ENTRADA','REGISTRADO POR'];
+ const r2=sds.map(({m,x})=>[fmtD(x.data),m.codigo||'',m.contrato||'',m.descricao||'',m.plataforma||'',+x.quantidade||0,m.unidade||'',x.nf||'',x.nm||'',x.grd||'',x.nfDevolucao||'',x.rtFwo||'',x.status||'',x.op||'',x.observacao||'',m.nf||'',x.usuario||'']);
+ const ws2=X.utils.aoa_to_sheet([H2,...r2]);fmtCols(X,ws2,r2.length,[],[5]);
+ ws2['!cols']=[12,16,14,42,14,11,9,12,12,12,16,14,15,12,30,12,18].map(w=>({wch:w}));
  ws2['!autofilter']={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:r2.length,c:H2.length-1}})};
+ const H4=['DATA','NF','CONTRATO','FORNECEDOR','NM','PLATAFORMA','MATERIAL','QUANTIDADE','UNIDADE','MOTIVO','DETALHES DO MOTIVO','FOTOS','OBSERVAÇÃO','REGISTRADO POR'];
+ const r4=recs.map(r=>[fmtD(r.data),r.nf||'',r.contrato||'',r.fornecedor||'',r.nm||'',r.plataforma||'',r.descricao||'',+r.quantidade||0,r.unidade||'',r.motivoTipo||'',r.motivo||'',+r.fotos||0,r.observacao||'',r.criadoPor||'']);
+ const ws4=X.utils.aoa_to_sheet([H4,...r4]);fmtCols(X,ws4,r4.length,[],[7]);
+ ws4['!cols']=[12,14,14,22,12,14,36,11,9,24,40,7,30,18].map(w=>({wch:w}));
+ ws4['!autofilter']={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:r4.length,c:H4.length-1}})};
  const cnt=k=>mats.filter(m=>sit(m).st===k).length;
  const stc=k=>sds.filter(o=>o.x.status===k).length;
- const res=[[`${empresa().toUpperCase()} — RELATÓRIO DE MATERIAIS MPT`],[],['Gerado em',new Date().toLocaleString('pt-BR')],['Gerado por',S.user.nome],['Tipo',{todos:'Todos os materiais',estoque:'Em estoque',baixados:'Baixados'}[R.tipo]],['Plataforma',R.plat||'Todas'],['Período',(R.de||R.ate)?`${fmtD(R.de)||'início'} a ${fmtD(R.ate)||'hoje'}`:'Todo o histórico'],[],
+ const res=[[`${empresa().toUpperCase()} — RELATÓRIO DE MATERIAIS MPT`],[],['Gerado em',new Date().toLocaleString('pt-BR')],['Gerado por',S.user.nome],['Tipo',{todos:'Todos os materiais',estoque:'Em estoque',baixados:'Baixados'}[R.tipo]],['Contrato',R.ct||'Todos'],['Plataforma',R.plat||'Todas'],['Período',(R.de||R.ate)?`${fmtD(R.de)||'início'} a ${fmtD(R.ate)||'hoje'}`:'Todo o histórico'],[],
   ['Total de materiais',mats.length],['Em estoque',cnt('EM ESTOQUE')],['Saída parcial',cnt('PARCIAL')],['Baixados',cnt('BAIXADO')],[],
-  ['Saídas registradas',sds.length],['Aplicação',stc('APLICAÇÃO')],['Embarque',stc('EMBARQUE')],['Transferência',stc('TRANSFERÊNCIA')],[],
+  ['Saídas registradas',sds.length],['Aplicação',stc('APLICAÇÃO')],['Embarque',stc('EMBARQUE')],['Transferência',stc('TRANSFERÊNCIA')],['Devolução',stc('DEVOLUÇÃO')],[],['NFs recusadas',recs.length],[],
   ['Valor total de entrada',mats.reduce((a,m)=>a+(+m.valorTotal||0),0)],['Valor do saldo em estoque',mats.reduce((a,m)=>a+sit(m).saldo*(+m.valorUnit||0),0)]];
- const ws3=X.utils.aoa_to_sheet(res);['B19','B20'].forEach(c=>{if(ws3[c])ws3[c].z='"R$" #,##0.00'});ws3['!cols']=[{wch:28},{wch:30}];
- const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws1,'Materiais');X.utils.book_append_sheet(wb,ws2,'Saídas');X.utils.book_append_sheet(wb,ws3,'Resumo');
+ const ws3=X.utils.aoa_to_sheet(res);res.forEach((row,i)=>{if(String(row[0]||'').startsWith('Valor')){const c=X.utils.encode_cell({r:i,c:1});if(ws3[c])ws3[c].z='"R$" #,##0.00'}});ws3['!cols']=[{wch:28},{wch:30}];
+ const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws1,'Materiais');X.utils.book_append_sheet(wb,ws2,'Saídas');X.utils.book_append_sheet(wb,ws4,'NFs recusadas');X.utils.book_append_sheet(wb,ws3,'Resumo');
  const buf=X.write(wb,{bookType:'xlsx',type:'array'});
- const nm=`Relatorio_Materiais_MPT_${{todos:'Geral',estoque:'Em_Estoque',baixados:'Baixados'}[R.tipo]}_${today()}.xlsx`;
+ const ctTag=R.ct?'_Contrato_'+R.ct.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\w-]+/g,'_'):'';
+ const nm=`Relatorio_Materiais_MPT_${{todos:'Geral',estoque:'Em_Estoque',baixados:'Baixados'}[R.tipo]}${ctTag}_${today()}.xlsx`;
  await saveFile(nm,buf);
 }
 function fmtCols(X,ws,n,money,qty){for(let r=1;r<=n;r++){money.forEach(c=>{const a=X.utils.encode_cell({r,c});if(ws[a])ws[a].z='"R$" #,##0.00'});qty.forEach(c=>{const a=X.utils.encode_cell({r,c});if(ws[a])ws[a].z='#,##0.###'})}}
@@ -1003,8 +1091,8 @@ async function onLogo(file){
 
 async function exportBackup(){
  toast('Preparando backup…');const fotos=[];
- for(const m of S.mats){for(let i=0;i<(+m.fotos||0);i++){try{const s=await S.db.doc('fotos/'+m.id+'-'+i).get();if(s.exists)fotos.push(Object.assign({id:s.id},s.data()))}catch(e){}}}
- const data={app:'controle-mpt',versao:1,exportadoEm:new Date().toISOString(),materiais:S.mats.map(m=>Object.assign({},m)),fotos,config:Object.assign({},cfg())};
+ for(const m of [...S.mats,...S.recusas]){for(let i=0;i<(+m.fotos||0);i++){try{const s=await S.db.doc('fotos/'+m.id+'-'+i).get();if(s.exists)fotos.push(Object.assign({id:s.id},s.data()))}catch(e){}}}
+ const data={app:'controle-mpt',versao:1,exportadoEm:new Date().toISOString(),materiais:[...S.mats,...S.recusas].map(m=>Object.assign({},m)),fotos,config:Object.assign({},cfg())};
  await saveFile('backup-controle-mpt-'+today()+'.json',JSON.stringify(data));
 }
 async function importBackup(file){
@@ -1032,12 +1120,16 @@ $('#modal-root').addEventListener('click',e=>{if(e.target.classList.contains('ov
 
 /* ============ ações ============ */
 const ACT={
+ recDetail:b=>openRecusa(b.dataset.id),
+ delRec:async b=>{const r=S.recusas.find(x=>x.id===b.dataset.id);if(!r)return;if(!(await confirmBox(`Excluir o registro da NF ${r.nf} recusada?`,'Excluir',1)))return;try{await retry(()=>S.db.doc('materiais/'+r.id).delete());for(let i=0;i<(+r.fotos||0);i++)await S.db.doc('fotos/'+r.id+'-'+i).delete().catch(()=>{});closeModal();toast('Registro excluído.')}catch(e){wErr(e)}},
+ zoomRec:b=>{const u=(S._zoom||[])[+b.dataset.i];if(u)zoomImg(u)},
  go:b=>go(b.dataset.v),logout:()=>logout(),close:()=>closeModal(),
  more:()=>openModal(`<div class="mh"><div class="row" style="gap:10px"><div class="av">${esc(ini(S.user.nome))}</div><div><b>${esc(S.user.nome)}</b><div class="muted" style="font-size:12px">${isAdmin()?'Administrador':'Usuário'}</div></div></div><button class="btn ghost sm" data-act="close">${ic('x')}</button></div>
   <div class="mb" style="padding-top:4px">${navItems().map(n=>`<button class="lnk" data-act="go" data-v="${n.v}">${ic(n.v)}${n.t}</button>`).join('')}<button class="lnk" data-act="scanQR">${ic('qr')}Ler QR code</button><button class="lnk" data-act="myPw">${ic('key')}Alterar minha senha</button><button class="lnk" data-act="logout" style="color:var(--red)">${ic('logout')}Sair</button></div>`,'sheet'),
  menuUser:()=>pwModal(),myPw:()=>pwModal(),forgot:()=>forgotModal(),
  detail:(b,e)=>{if(e.target.closest('[data-stop]'))return;openDetail(b.dataset.id)},
  saida:b=>openSaida(b.dataset.id),back:b=>openDetail(b.dataset.id),
+ pickMot:b=>{const f=b.closest('form');f.motivoTipo.value=b.dataset.m;f.querySelectorAll('#motTabs button').forEach(x=>x.classList.toggle('on',x===b));S.rform=recFormObj(f)},
  pickSt:b=>{const f=b.closest('form');f.status.value=b.dataset.s;f.querySelectorAll('#stTabs button').forEach(x=>x.classList.toggle('on',x===b))},
  editMat:b=>{closeModal();S.editId=b.dataset.id;S.form=null;S.fotos=[];S._fotosLoaded=false;S._fotosDirty=false;S.view='entrada';updateChrome();renderView();window.scrollTo(0,0)},
  cancelEdit:()=>{const id=S.editId;S.editId=null;S.form=null;S.fotos=[];S._fotosLoaded=false;S.view='estoque';updateChrome();renderView();if(id)openDetail(id)},
@@ -1071,6 +1163,7 @@ const CHG={
  dashPlat:e=>{S.dash.plat=e.value;renderView()},dashCt:e=>{S.dash.ct=e.value;renderView()},dashDe:e=>{S.dash.de=e.value;renderView()},dashAte:e=>{S.dash.ate=e.value;renderView()},
  fSit:e=>{S.fSit=e.value;renderList()},fPlat:e=>{S.fPlat=e.value;renderList()},
  sel:e=>{e.checked?S.sel.add(e.dataset.id):S.sel.delete(e.dataset.id);if(S.view==='estoque')renderList();else renderView()},
+ repCt:e=>{S.rep.ct=e.value;renderView()},rCt:e=>{S.rCt=e.value;renderRecList()},
  selAll:e=>{const L=filtered();L.forEach(m=>e.checked?S.sel.add(m.id):S.sel.delete(m.id));renderList()},
  repPlat:e=>{S.rep.plat=e.value;renderView()},repDe:e=>{S.rep.de=e.value;renderView()},repAte:e=>{S.rep.ate=e.value;renderView()},
  fotos:async e=>{const all=[...e.files];const files=all.slice(0,4-S.fotos.length);e.value='';if(all.length>files.length)toast('Máximo de 4 fotos por material.','err');if(files.length)toast('Processando foto(s)…');for(const f of files){try{S.fotos.push(await compressImg(f));S._fotosDirty=true;if(!S._fotosLoading)S._fotosLoaded=true}catch(x){toast('Não foi possível ler a imagem.','err')}}renderFotos()},
@@ -1079,6 +1172,7 @@ const CHG={
 };
 const INP={
  q:e=>{S.q=e.value;renderList()},
+ rq:e=>{S.rq=e.value;renderRecList()},
  labq:e=>{S.lab.q=e.value;const q=e.value.trim().toLowerCase();const L=S.mats.filter(m=>!q||[m.codigo,m.descricao,m.nf,m.nm,m.plataforma,m.local].join(' ').toLowerCase().includes(q)).sort((a,b)=>(b.criadoEm||0)-(a.criadoEm||0));const l=$('#labList');if(l)l.innerHTML=labListHTML(L)}
 };
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const f=ACT[b.dataset.act];if(!f)return;if(b.tagName==='A')e.preventDefault();f(b,e)});
